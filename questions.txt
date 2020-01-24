@@ -1,0 +1,6 @@
+-Par quel mecanisme se fait l'ectriture par aimentation?. Est ce le champs magnetique induit par l'onde plasmonique
+-Checker coefficient de diffusion D
+-D isotrop ?
+-dependence spaciotemporel du terme source ?
+-Ordre de grandeur des variations du terme source comparativement a celles du transfert de chaleur
+-Methodes numeriques avec terme non homogéne dependant du temps et de l'espace
