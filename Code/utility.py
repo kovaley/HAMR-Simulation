@@ -10,8 +10,8 @@ def from1to2(vector,Nr,Nz):
     
     for i in range(0,Nr):
         for j in range(0,Nz):
-            pl1=i+j*Nz
-            pl2=j+i*Nr
+            pl1=i+j*Nr
+            pl2=j+i*Nz
 
             newVector[pl2]=a[pl1]
     return newVector
@@ -23,8 +23,8 @@ def from2to1(vector,Nr,Nz):
     
     for i in range(0,Nr):
         for j in range(0,Nz):
-            pl1=i+j*Nz
-            pl2=j+i*Nr
+            pl1=i+j*Nr
+            pl2=j+i*Nz
             newVector[pl1]=a[pl2]
     return newVector
 
@@ -36,6 +36,6 @@ def from1toMatrix(vector,Nr,Nz):
     
     for i in range(0,Nr):
         for j in range(0,Nz):
-            pl=i+j*Nz
+            pl=i+j*Nr
             newMatrix[j,i]=a[pl]
     return newMatrix

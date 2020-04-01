@@ -9,7 +9,7 @@ Created on Sun Mar 29 18:50:49 2020
 
 from scipy.sparse import linalg as lina
 import utility as ut
-from scipy.sparse import csr_matrix as csr
+from scipy.sparse import csr_matrix as csr, lil_matrix as lil
 """
 Ici se trouvent les fonction en lien avec le schéma numerique
 
@@ -63,12 +63,13 @@ def cycle(T1,Nr,Nz,B,C,D,E):
 
 def buildMatrices1(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz):
     N=Nr*Nz;
+    
     "step 1"
-    B=csr((N,N));
-    C=csr((N,N));
+    B=lil((N,N));
+    C=lil((N,N));
     "step2"
-    D=csr((N,N));
-    E=csr((N,N));
+    D=lil((N,N));
+    E=lil((N,N));
     
     "Coefficients"
     b = alpha_para/deltar**2
@@ -83,7 +84,8 @@ def buildMatrices1(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz):
     for i in range(0,Nr):
         for j in range(0,Nz): 
     
-            pl=i+j*Nz
+            pl=i+j*Nr
+
             if (i==0) |  (i==Nr-1) |  (j==0) |  (j==Nz-1):
     
                 pc=pl
@@ -102,11 +104,10 @@ def buildMatrices1(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz):
                 'indexe de colonne pour la matrice C'
                 pc=pl;
                 C[pl,pc]=c;
-                pc=i+(j-1)*Nz;
+                pc=i+(j-1)*Nr;
                 C[pl,pc]=d;
-                pc=i+(j+1)*Nz;
+                pc=i+(j+1)*Nr;
                 C[pl,pc]=d;
-        
         
     "Construction des Matrices de coefficients Step 2"
     
@@ -114,11 +115,11 @@ def buildMatrices1(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz):
     "l'indexation (pl change). Ainsi, les vecteurs solutions, et temperature "
     "initiale sont indexé differament aux Step1(on utilise alors les fonctions dans Utility "
     
-    for j in range(0,Nz):
-        for i in range(0,Nr): 
+   
+    for i in range(0,Nr): 
+        for j in range(0,Nz):
+            pl=j+i*Nz
             
-            pl=j+i*Nr
-     
             if (i==0) |  (i==Nr-1) |  (j==0) |  (j==Nz-1):
     
                 pc=pl
@@ -136,10 +137,16 @@ def buildMatrices1(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz):
                 'pc indexe de colonne pour la matrice E'
                 pc=pl;
                 E[pl,pc]=f;
-                pc=j+(i-1)*Nr;
+                pc=j+(i-1)*Nz;
                 E[pl,pc]=b;
-                pc=j+(i+1)*Nr;
-                E[pl,pc]=b;    
+                pc=j+(i+1)*Nz;
+                E[pl,pc]=b;
+                
+                
+    B=B.tocsr()
+    C=C.tocsr()
+    D=D.tocsr()
+    E=E.tocsr()
                 
     return B,C,D,E
 
