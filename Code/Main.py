@@ -1,41 +1,31 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import ADI as ADI
+import crankNicolson as CrNi
 import utility as ut
 import plot_functions as plt
 import numpy as np
 
-#Ces paramettres marche pas tant
+
 "Parametres physiques"
 rho=8900  #kg.m-3
 cSpe=423  #J.Kg-1.K-1
+pC=rho*cSpe
 k_para=84 #W.m-1.K-1
 k_perp=84 #W.m-1.K-1
+h=0 #convection
+alpha_para=k_para/(pC)
+alpha_perp=k_perp/(pC)
 
-alpha_para=k_para/(cSpe*rho)
-alpha_perp=k_perp/(cSpe*rho)
-
-Lr=90e-6; #m
-Lz=259e-9;#m
+"Dimensions"
+Lr=100e-8; #m
+Lz=100e-8;#m
 duration=100e-5;#s
 
 "Maillage"
 deltat=10e-6; #s
-deltar=0.3e-6;#m
-deltaz=3e-9;#m
-
-# Ca ca marche relativemen Bien
-# "Parametres physiques"
-# alpha_para=0.5
-# alpha_perp=0.5
-# Lr=5;
-# Lz=5;
-# duration=1;
-# "Maillage"
-# deltat=0.01;
-# deltar=0.1;
-# deltaz=0.1;
+deltar=1e-7;#m
+deltaz=1e-7;#m
 
 Nt=np.int(np.round(duration/deltat));
 Nr=np.int(np.round(Lr/deltar));
@@ -44,37 +34,39 @@ Nz=np.int(np.round(Lz/deltaz));
 print(Nr,Nz,Nt)
 
 N=Nr*Nz;
+source=np.zeros((Nz,Nr))
 
-"Matrices de coefficients d'un cas simple"
-A,B,C,D=ADI.buildMatrices1(Nr, Nz, alpha_para, alpha_perp, deltar, deltat, deltaz)
+"Matrices de coefficients d'un cranknicolson"
+A,B,C=CrNi.buildMatrix1(Nr,Nz, 
+                         alpha_para, 
+                         alpha_perp, 
+                         deltar, deltat, deltaz,
+                         pC,source,h)
+
 print("Matrix Done")
 
-"Temperature initiale"
-Tini=np.zeros((N,1));
+"Temperature initiale. Ensuite Ttemp s'actualise a chaque iteration"
+Ttemp=np.zeros((N,1));
 
 for j in range(0,Nz):
     for i in range(0,Nr): 
         pl=i+j*Nr
         if (i==0) |  (i==Nr-1) |  (j==0) |  (j==Nz-1):
-            Tini[pl]=300
+            Ttemp[pl]=300
         else :
-            Tini[pl]=0
+            Ttemp[pl]=0
     
-    
-Temperatures=np.zeros((N,Nt)); 
-Temperatures[:,0]=Tini[:,0];
 
 "Initialisation du Maillage"
 Maille = np.zeros((Nz,Nr,Nt));
-Maille[:,:,0]=ut.from1toMatrix(Tini, Nr, Nz)
+Maille[:,:,0]=ut.VectorToMatrix(Ttemp, Nr, Nz)
 print("Initial conditions Done")
 
 "Iteration temporelle / Calcul de la solution"
 for t in range(0,Nt-1)   :
-    T1=Temperatures[:,t]
-    T2=ADI.cycle(T1,Nr,Nz,A,B,C,D)
-    Temperatures[:,t+1]=T2[:,0]
-    Maille[:,:,t+1]=ut.from1toMatrix(T2, Nr, Nz)
+    T2=CrNi.solve(Ttemp,A,B,C)
+    Ttemp[:,0]=T2
+    Maille[:,:,t+1]=ut.VectorToMatrix(T2, Nr, Nz)
     
 print("Computation of solution Done")    
     
