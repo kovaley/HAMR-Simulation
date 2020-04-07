@@ -17,20 +17,28 @@ h=0 #convection
 alpha_para=k_para/(pC)
 alpha_perp=k_perp/(pC)
 
+
+
+"Maillage"
+deltar=1e-7;#m
+deltaz=1e-7;#m
+deltat=1/(4*(alpha_para/(deltar)**2+alpha_perp/(deltaz)**2)); #s
+
 "Dimensions"
 Lr=100e-8; #m
 Lz=100e-8;#m
-duration=100e-5;#s
-
-"Maillage"
-deltat=10e-6; #s
-deltar=1e-7;#m
-deltaz=1e-7;#m
+duration=100*deltat;#s
 
 Nt=np.int(np.round(duration/deltat));
 Nr=np.int(np.round(Lr/deltar));
 Nz=np.int(np.round(Lz/deltaz));
 
+"Condition de stabilité"
+crit=deltat*(alpha_para/(deltar)**2+alpha_perp/(deltaz)**2)
+if crit>0.5:
+    print("big, ça sera pas stable")
+
+    
 print(Nr,Nz,Nt)
 
 N=Nr*Nz;
@@ -73,7 +81,7 @@ print("Computation of solution Done")
 "Plotting et animation"
 
 "plt.plotFrame(Maille, 0)"
-plt.SaveFrames(Maille)
+#plt.SaveFrames(Maille)
             
 "Pour animer les images. telecharger ffmpeg et executer la comande :"
 "' ffmpeg -r 30 -i %06d_animation.png vid.mov ' dans un terminal au dossier des images"
