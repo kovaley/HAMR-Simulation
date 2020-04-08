@@ -3,8 +3,8 @@
 
 import crankNicolson as CrNi
 import utility as ut
-import plot_functions as plt
 import numpy as np
+import ploting as plt
 
 
 "Parametres physiques"
@@ -20,8 +20,8 @@ alpha_perp=k_perp/(pC)
 
 
 "Maillage"
-deltar=1e-7;#m
-deltaz=1e-7;#m
+deltar=1e-8;#m
+deltaz=1e-8;#m
 deltat=1/(4*(alpha_para/(deltar)**2+alpha_perp/(deltaz)**2)); #s
 
 "Dimensions"
@@ -53,35 +53,29 @@ A,B,C=CrNi.buildMatrix1(Nr,Nz,
 
 print("Matrix Done")
 
-"Temperature initiale. Ensuite Ttemp s'actualise a chaque iteration"
-Ttemp=np.zeros((N,1));
-
+"Temperature initiale."
+Maille = np.zeros((Nz,Nr,Nt));
 for j in range(0,Nz):
     for i in range(0,Nr): 
         pl=i+j*Nr
         if (i==0) |  (i==Nr-1) |  (j==0) |  (j==Nz-1):
-            Ttemp[pl]=300
+            Maille[i,j,0]=300
         else :
-            Ttemp[pl]=0
+            Maille[i,j,0]=0
     
 
-"Initialisation du Maillage"
-Maille = np.zeros((Nz,Nr,Nt));
-Maille[:,:,0]=ut.VectorToMatrix(Ttemp, Nr, Nz)
 print("Initial conditions Done")
 
 "Iteration temporelle / Calcul de la solution"
 for t in range(0,Nt-1)   :
-    T2=CrNi.solve(Ttemp,A,B,C)
-    Ttemp[:,0]=T2
-    Maille[:,:,t+1]=ut.VectorToMatrix(T2, Nr, Nz)
-    
+    Maille[:,:,t+1]=CrNi.solve(Maille[:,:,t],A,B,C)
 print("Computation of solution Done")    
     
 "Plotting et animation"
 
-"plt.plotFrame(Maille, 0)"
-#plt.SaveFrames(Maille)
+plt.animate(Maille,Nt)
+
+
             
 "Pour animer les images. telecharger ffmpeg et executer la comande :"
 "' ffmpeg -r 30 -i %06d_animation.png vid.mov ' dans un terminal au dossier des images"

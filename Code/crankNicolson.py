@@ -14,10 +14,10 @@ from scipy.sparse import lil_matrix as lil
 
 def solve(T1,A,B,C):
     "solve A*T=B*T1+C"
-    d=B.dot(T1)+C;
+    d=B.dot(T1.flatten().reshape(-1, 1))+C;
     T=lina.spsolve(A,d)
     
-    return T
+    return T.reshape(T1.shape)
 
 "Heatbath sur deux frontieres, convection et axe de simetrie"
 def buildMatrix(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz,pC,source,h):
