@@ -15,7 +15,7 @@ k_perp=84 #W.m-1.K-1
 h=0 #convection
 alpha_para=k_para/(pC)
 alpha_perp=k_perp/(pC)
-
+Tp=273
 
 
 "Maillage"
@@ -24,9 +24,9 @@ deltaz=1e-8;#m
 deltat=1/(4*(alpha_para/(deltar)**2+alpha_perp/(deltaz)**2)); #s
 
 "Dimensions"
-Lr=100e-8; #m
-Lz=100e-8;#m
-duration=1000*deltat;#s
+Lr=100e-9; #m
+Lz=100e-9;#m
+duration=100*deltat;#s
 
 Nt=np.int(np.round(duration/deltat));
 Nr=np.int(np.round(Lr/deltar));
@@ -44,11 +44,11 @@ N=Nr*Nz;
 source=np.zeros((Nz,Nr))
 
 "Matrices de coefficients d'un cranknicolson"
-A,B,C=CrNi.buildMatrix1(Nr,Nz, 
+A,B,C=CrNi.buildMatrix(Nr,Nz, 
                          alpha_para, 
                          alpha_perp, 
                          deltar, deltat, deltaz,
-                         pC,source,h)
+                         pC,source,h,Tp)
 
 print("Matrix Done")
 
@@ -60,7 +60,7 @@ for j in range(0,Nz):
         if (i==0) |  (i==Nr-1) |  (j==0) |  (j==Nz-1):
             Maille[i,j,0]=300
         else :
-            Maille[i,j,0]=0
+            Maille[i,j,0]=300
     
 
 print("Initial conditions Done")

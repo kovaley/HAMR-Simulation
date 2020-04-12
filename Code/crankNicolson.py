@@ -20,7 +20,7 @@ def solve(T1,A,B,C):
     return T.reshape(T1.shape)
 
 "Heatbath sur deux frontieres, convection et axe de simetrie"
-def buildMatrix(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz,pC,source,h):
+def buildMatrix(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz,pC,source,h,Tp):
     N=Nr*Nz;
 
     "B*T(n+1)=C*T+D"
@@ -46,8 +46,8 @@ def buildMatrix(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz,pC,source,h):
                 pc=pl
                 'Ces elements ne change pas au cours du temps'
                 B[pl,pc]=1;
-                C[pl,pc]=1;
-                " D[pl,0]=S[j,i]" "faut-il ajouter S aux fontieres ?"
+            
+                D[pl,0]=Tp
             
             elif (j==0) :
                 
@@ -59,8 +59,8 @@ def buildMatrix(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz,pC,source,h):
                 pc=pl+2;
                 B[pl,pc]=-1;
                 
-#                pc=pl;
-#                D[pl,pc]=-deltaz*h/(alpha_para*pC);
+                pc=pl;
+                D[pl,0]=-deltaz*h*Tp/(alpha_para*pC);
             
             elif (i==0) :
                 pc=pl;
@@ -70,7 +70,7 @@ def buildMatrix(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz,pC,source,h):
                 pc=pl+2;
                 B[pl,pc]=-1;
             
-            else :
+            elif (j!=0) and (j!=Nz-1) and (i!=0) and (i!=Nr-1) :
                 'indexe de colonne pour la matrice B'
                 'termes en i'
                 pc=pl;
@@ -98,7 +98,10 @@ def buildMatrix(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz,pC,source,h):
                 pc=i+(j-1)*Nr
                 C[pl,pc]=c;
                 'Source'
-                D[pl,0]=S[j,i]
+                D[pl]=S[j,i]
+               
+            else : 
+                print("missing matrix coefficient")
                 
         
         
@@ -109,7 +112,7 @@ def buildMatrix(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz,pC,source,h):
     return B,C,D
 
 "Heat bath sur les 4 frontieres"
-def buildMatrix1(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz,pC,source,h):
+def buildMatrix1(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz,pC,source,h,Tp):
     N=Nr*Nz;
 
     "B*T(n+1)=C*T+D"
