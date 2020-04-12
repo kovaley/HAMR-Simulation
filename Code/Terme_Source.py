@@ -15,10 +15,11 @@ def SourceCreation(dr, dz, Nr, Nz, t, P_las):
     t_0 = 5*tau_0
     Im_n = 4.73 
     
-    r =  dr*np.arange(0:Nr)
-    z =  dz*np.arange(0:Nz)   
+    r =  dr*np.arange(Nr)
+    z =  dz*np.arange(Nz)   
     
-    Source = 4*sigma*a**4*P_las/(c*np.pi*eps_0*n_air * (r**2+z**2)**5) * ((3*r**2-1)**2 + ) + (3*r*z)**2)*np.cos(k*z-omega*t)**2 * np.sin(omega*(t-t_0))**2*np.exp(-(t-t_0)**2/tau_0**2) \
+    Source = 4*sigma*a**4*P_las/(c*np.pi*eps_0*n_air * (r**2+z**2)**5) * ((3*r**2 - 1)**2 \
+    + (3*r*z)**2)*np.cos(k*z-omega*t)**2 * np.sin(omega*(t-t_0))**2*np.exp(-(t-t_0)**2/tau_0**2) \
     *np.exp(-Im_n*np.sqrt(2)*k*(r+z))
     
     
