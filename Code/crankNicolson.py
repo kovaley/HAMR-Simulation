@@ -99,9 +99,7 @@ def buildMatrix(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz,pC,source,h,Tp)
                 C[pl,pc]=c;
                 pc=i+(j-1)*Nr
                 C[pl,pc]=c;
-                'Source'
-                D[pl]=S[j,i]
-               
+
             else : 
                 print("missing matrix coefficient")
                 
