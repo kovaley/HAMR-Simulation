@@ -17,6 +17,7 @@ def animate(maille,NT):
         ims.append((plt.pcolor(maille[:,:,i]),))
     im_ani = animation.ArtistAnimation(fig1, ims, interval=50, repeat_delay=3000,
                                    blit=True)
-## To save this second animation with some metadata, use the following command:
-#    im_ani.save('im.mp4', metadata={'artist':'Les gars du projets'})
-#    plt.show()
+    plt.colorbar()
+# To save this second animation with some metadata, use the following command:
+    im_ani.save('im.mp4', metadata={'artist':'Les gars du projets'})
+    plt.show()

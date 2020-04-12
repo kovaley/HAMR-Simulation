@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import crankNicolson as CrNi
-import utility as ut
 import numpy as np
 import ploting as plt
 
@@ -27,7 +26,7 @@ deltat=1/(4*(alpha_para/(deltar)**2+alpha_perp/(deltaz)**2)); #s
 "Dimensions"
 Lr=100e-8; #m
 Lz=100e-8;#m
-duration=100*deltat;#s
+duration=1000*deltat;#s
 
 Nt=np.int(np.round(duration/deltat));
 Nr=np.int(np.round(Lr/deltar));

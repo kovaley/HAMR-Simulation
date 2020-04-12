@@ -31,8 +31,8 @@ def buildMatrix(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz,pC,source,h):
     "Coefficients"
     b = alpha_perp*deltat/(2*deltar**2)
     c = alpha_para*deltat/(2*deltaz**2)
-    a = 1+b+c
-    d= 1-b-c
+    a = 1+2*b+2*c
+    d= 1-2*b-2*c
     S=source*deltat/pC
     "Construction des Matrices de coefficients Step 1"
     
@@ -53,14 +53,14 @@ def buildMatrix(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz,pC,source,h):
                 
                 'indexe de colonne pour la matrice B'
                 pc=pl;
-                B[pl,pc]=-(3+h/(alpha_para*pC));
+                B[pl,pc]=-(3+h*deltaz/(alpha_para*pC));
                 pc=pl+1;
                 B[pl,pc]=4;
                 pc=pl+2;
                 B[pl,pc]=-1;
                 
-                pc=pl;
-                D[pl,pc]=-deltaz*h/(alpha_para*pC);
+#                pc=pl;
+#                D[pl,pc]=-deltaz*h/(alpha_para*pC);
             
             elif (i==0) :
                 pc=pl;
@@ -120,8 +120,8 @@ def buildMatrix1(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz,pC,source,h):
     "Coefficients"
     b = alpha_perp*deltat/(2*deltar**2)
     c = alpha_para*deltat/(2*deltaz**2)
-    a = 1+b+c
-    d = 1-b-c
+    a = 1+2*b+2*c
+    d = 1-2*b-2*c
     "Construction des Matrices de coefficients Step 1"
     
     for i in range(0,Nr):
