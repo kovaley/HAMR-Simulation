@@ -19,7 +19,7 @@ def solve(T1,A,B,C):
     
     return T.reshape(T1.shape)
 
-"Heatbath sur deux frontieres, convection et axe de simetrie"
+"Heatbath sur deux frontieres, convection et axe de symetrie"
 def buildMatrix(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz,pC,source,h,Tp):
     N=Nr*Nz;
 

@@ -4,6 +4,7 @@
 import crankNicolson as CrNi
 import numpy as np
 import ploting as plt
+import time
 
 
 "Parametres physiques"
@@ -64,12 +65,13 @@ for j in range(0,Nz):
     
 
 print("Initial conditions Done")
-
+startime = time.time()
 "Iteration temporelle / Calcul de la solution"
 for t in range(0,Nt-1)   :
     Maille[:,:,t+1]=CrNi.solve(Maille[:,:,t],A,B,C)
-print("Computation of solution Done")    
-    
+   
+execution_time = time.time()-startime 
+print("Computation of solution done in {:.2f} seconds".format(execution_time))    
 "Plotting et animation"
 
 plt.animate(Maille,Nt)
@@ -80,7 +82,9 @@ plt.animate(Maille,Nt)
 "' ffmpeg -r 30 -i %06d_animation.png vid.mov ' dans un terminal au dossier des images"
             
 print("Plotting Done")         
-            
+  
+
+          
             
             
             
