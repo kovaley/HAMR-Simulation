@@ -12,11 +12,11 @@ cSpe=423  #J.Kg-1.K-1
 pC=rho*cSpe
 k_para=84 #W.m-1.K-1
 k_perp=84 #W.m-1.K-1
-h=0 #convection
+h=10 #convection
 alpha_para=k_para/(pC)
 alpha_perp=k_perp/(pC)
 Tp=273
-
+Tini=300
 
 "Maillage"
 deltar=1e-8;#m
@@ -58,9 +58,9 @@ for j in range(0,Nz):
     for i in range(0,Nr): 
         pl=i+j*Nr
         if (i==0) |  (i==Nr-1) |  (j==0) |  (j==Nz-1):
-            Maille[i,j,0]=300
+            Maille[i,j,0]=Tini
         else :
-            Maille[i,j,0]=300
+            Maille[i,j,0]=Tini
     
 
 print("Initial conditions Done")
