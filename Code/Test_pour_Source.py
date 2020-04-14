@@ -15,7 +15,7 @@ P_las = 1e-3 #W
 dr = 1e-9 #m
 dz = 1e-9 #m
 Nr = 300 
-Nz = 300
+Nz = 100
 dt = 1e-9 #s
 Nt = 10
 
