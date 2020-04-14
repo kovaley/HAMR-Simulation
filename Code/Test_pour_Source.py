@@ -14,8 +14,8 @@ P_las = 1e-3 #W
 
 dr = 1e-9 #m
 dz = 1e-9 #m
-Nr = 300 
-Nz = 100
+Nr = 1000 
+Nz = 1000
 dt = 1e-9 #s
 Nt = 10
 
@@ -25,7 +25,7 @@ source[:,:]=TS.SourceCreation(dr, dz, Nr, Nz, Nt*dt, P_las)
 
 plt.matshow(source)
 plt.figure(2)
-x = np.arange(0,dz*Nz,dz)
+x = np.linspace(0,dz*Nz,Nz)
 y = source[:,1]
 plt.plot(x,y)
 

@@ -19,11 +19,11 @@ def SourceCreation(dr, dz, Nr, Nz, t, P_las):
     for i in range(0,Nz):
         for j in range(0,Nr):
                 r =  dr*j
-                z =  dz*i+1e-9 #m  
+                z =  dz*i+2e-9 #m  
 
-                Source[i,j] = np.log(4*sigma*a**4*P_las/(c*np.pi*eps_0*n_air*(r**2+z**2)**5) * ((3*r**2)**2 \
-                           + (3*r*z)**2)*np.cos(k*z-omega*t)**2 * np.sin(omega*(t-t_0))**2*np.exp(-(t-t_0)**2/tau_0**2) \
-                           *np.exp(-Im_n*np.sqrt(2)*k*(r+z)))
+                Source[i,j] = 4*sigma*a**4*P_las/(c*np.pi*eps_0*n_air*(r**2+z**2)**5) * ((3*r**2)**2 \
+                           + (3*r*z)**2) * np.sin(omega*(t-t_0))**2*np.exp(-(t-t_0)**2/tau_0**2) \
+                           *np.exp(-Im_n*np.sqrt(2)*k*(r+z))
 
     
     
