@@ -13,12 +13,12 @@ cSpe=423  #J.Kg-1.K-1
 pC=rho*cSpe
 k_para=84 #W.m-1.K-1
 k_perp=84 #W.m-1.K-1
-h=10 #convection
+h=100 #convection
 alpha_para=k_para/(pC)
 alpha_perp=k_perp/(pC)
 Tp=273
 Tini=300
-P_las=10
+P_las=1000
 
 "Maillage"
 deltar=1e-8;#m
@@ -71,13 +71,13 @@ startime = time.time()
 "Iteration temporelle / Calcul de la solution"
 for t in range(0,Nt-1)   :
     Maille[:,:,t+1]=CrNi.solve(Maille[:,:,t],A,B,C)
-    source[:,:,t]=TS.SourceCreation(deltar, deltaz, Nr, Nz, t*deltat, P_las)
+#    source[:,:,t]=TS.SourceCreation(deltar, deltaz, Nr, Nz, t*deltat, P_las)
     
 execution_time = time.time()-startime 
 print("Computation of solution done in {:.2f} seconds".format(execution_time))    
 "Plotting et animation"
 
-plt.animate(source,Nt)
+plt.animate(Maille,Nt)
 #plt.animate(Maille,Nt)
 
 
