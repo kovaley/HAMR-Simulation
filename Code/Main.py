@@ -57,13 +57,8 @@ print("Matrix Done")
 
 "Temperature initiale."
 Maille = np.zeros((Nz,Nr,Nt));
-for j in range(0,Nz):
-    for i in range(0,Nr): 
-        pl=i+j*Nr
-        if (i==0) |  (i==Nr-1) |  (j==0) |  (j==Nz-1):
-            Maille[i,j,0]=Tini
-        else :
-            Maille[i,j,0]=Tini
+Maille[:,:,0]=Tini
+
     
 
 print("Initial conditions Done")
