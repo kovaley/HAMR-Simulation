@@ -69,11 +69,12 @@ for t in range(0,Nt-1)   :
 #    source[:,:,t]=TS.SourceCreation(deltar, deltaz, Nr, Nz, t*deltat, P_las)
     
 execution_time = time.time()-startime 
-print("Computation of solution done in {:.2f} seconds".format(execution_time))    
+print("Computation of solution done in {:.2f} seconds".format(execution_time))
+    
 "Plotting et animation"
 
 plt.animate(Maille,Nt)
-#plt.animate(Maille,Nt)
+#plt.animate(source,Nt)
 
 
             
