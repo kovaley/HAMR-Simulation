@@ -12,9 +12,10 @@ alpha_perp: r
 from scipy.sparse import linalg as lina
 from scipy.sparse import lil_matrix as lil
 import numpy as np
-def solve(T1,A,B,C):
-    "solve A*T=B*T1+C"
-    d=B.dot(T1.flatten().reshape(-1, 1))+C;
+
+def solve(T1,A,B,C,source):
+    "solve A*T=B*T1+C+source"
+    d=B.dot(T1.flatten().reshape(-1, 1))+C+source.flatten().reshape(-1,1);
     T=lina.spsolve(A,d)
     
     return T.reshape(T1.shape)
@@ -24,13 +25,10 @@ def buildMatrix(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz,pC,h,Tp):
     N=Nr*Nz;
 
     "B*T(n+1)=C*T+D"
-#    B=lil((N,N));
-#    C=lil((N,N));
-#    D=lil((N,1))
+    B=lil((N,N));
+    C=lil((N,N));
+    D=lil((N,1))
     
-    B=np.zeros((N,N));
-    C=np.zeros((N,N));
-    D=np.zeros((N,1));
     
     "Coefficients"
     b = alpha_perp*deltat/(2*deltar**2)
@@ -108,9 +106,9 @@ def buildMatrix(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz,pC,h,Tp):
                 
         
         
-#    B=B.tocsr()
-#    C=C.tocsr()
-#    D=D.tocsr()
+    B=B.tocsr()
+    C=C.tocsr()
+    D=D.tocsr()
     
     return B,C,D
 
