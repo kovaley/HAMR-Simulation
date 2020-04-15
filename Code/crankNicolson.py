@@ -20,7 +20,7 @@ def solve(T1,A,B,C):
     return T.reshape(T1.shape)
 
 "Heatbath sur deux frontieres, convection et axe de simetrie"
-def buildMatrix(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz,pC,source,h,Tp):
+def buildMatrix(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz,pC,h,Tp):
     N=Nr*Nz;
 
     "B*T(n+1)=C*T+D"
@@ -37,7 +37,6 @@ def buildMatrix(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz,pC,source,h,Tp)
     c = alpha_para*deltat/(2*deltaz**2)
     a = 1+2*b+2*c
     d= 1-2*b-2*c
-    S=source*deltat/pC
     "Construction des Matrices de coefficients Step 1"
     
     for i in range(0,Nr):
@@ -116,7 +115,7 @@ def buildMatrix(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz,pC,source,h,Tp)
     return B,C,D
 
 "Heat bath sur les 4 frontieres"
-def buildMatrix1(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz,pC,source,h,Tp):
+def buildMatrix1(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz,pC,h,Tp):
     N=Nr*Nz;
 
     "B*T(n+1)=C*T+D"

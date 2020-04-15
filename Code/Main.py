@@ -28,7 +28,7 @@ deltat=1/(4*(alpha_para/(deltar)**2+alpha_perp/(deltaz)**2)); #s
 "Dimensions"
 Lr=100e-8; #m
 Lz=100e-8;#m
-duration=1000*deltat;#s
+duration=100*deltat;#s
 
 Nt=np.int(np.round(duration/deltat));
 Nr=np.int(np.round(Lr/deltar));
@@ -38,12 +38,10 @@ Nz=np.int(np.round(Lz/deltaz));
 crit=deltat*(alpha_para/(deltar)**2+alpha_perp/(deltaz)**2)
 if crit>0.5:
     print("big, ça sera pas stable")
-
-    
+ 
 print(Nr,Nz,Nt)
 
 N=Nr*Nz;
-source=np.zeros((Nz,Nr,Nt))
 
 
 "Matrices de coefficients d'un cranknicolson"
@@ -59,14 +57,14 @@ print("Matrix Done")
 Maille = np.zeros((Nz,Nr,Nt));
 Maille[:,:,0]=Tini
 
-    
-
+source=np.zeros((Nz,Nr,Nt))
 print("Initial conditions Done")
+
 startime = time.time()
 "Iteration temporelle / Calcul de la solution"
-for t in range(0,Nt-1)   :
-#    Maille[:,:,t+1]=CrNi.solve(Maille[:,:,t],A,B,C)
-    source[:,:,t]=np.log(TS.SourceCreation(deltar, deltaz, Nr, Nz, t*deltat, P_las))
+for t in range(0,Nt-1)    :
+    Maille[:,:,t+1]=CrNi.solve(Maille[:,:,t],A,B,C)
+    # source[:,:,t]=np.log(TS.SourceCreation(deltar, deltaz, Nr, Nz, t*deltat, P_las))
     
 execution_time = time.time()-startime 
 print("Computation of solution done in {:.2f} seconds".format(execution_time))
@@ -74,8 +72,8 @@ source=source[:,1:,:]
     
 "Plotting et animation"
 
-#plt.animate(Maille,Nt)
-plt.animate(source,Nt)
+plt.animate(Maille,Nt)
+# plt.animate(source,Nt)
 
 
             

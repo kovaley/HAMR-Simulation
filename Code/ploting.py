@@ -6,7 +6,6 @@ Created on Wed Apr  8 11:57:22 2020
 """
 
 import matplotlib.pyplot as plt
-import matplotlib.colors as colors
 import numpy as np
 import matplotlib.animation as animation
 
