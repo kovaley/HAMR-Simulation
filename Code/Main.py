@@ -13,7 +13,7 @@ cSpe=423  #J.Kg-1.K-1
 pC=rho*cSpe
 k_para=84 #W.m-1.K-1
 k_perp=84 #W.m-1.K-1
-h=100 #convection
+h=10 #convection
 alpha_para=k_para/(pC)
 alpha_perp=k_perp/(pC)
 Tp=273
@@ -26,9 +26,9 @@ deltaz=1e-8;#m
 deltat=1/(4*(alpha_para/(deltar)**2+alpha_perp/(deltaz)**2)); #s
 
 "Dimensions"
-Lr=100e-9; #m
-Lz=100e-9;#m
-duration=100*deltat;#s
+Lr=100e-8; #m
+Lz=100e-8;#m
+duration=1000*deltat;#s
 
 Nt=np.int(np.round(duration/deltat));
 Nr=np.int(np.round(Lr/deltar));
@@ -65,16 +65,17 @@ print("Initial conditions Done")
 startime = time.time()
 "Iteration temporelle / Calcul de la solution"
 for t in range(0,Nt-1)   :
-    Maille[:,:,t+1]=CrNi.solve(Maille[:,:,t],A,B,C)
-#    source[:,:,t]=TS.SourceCreation(deltar, deltaz, Nr, Nz, t*deltat, P_las)
+#    Maille[:,:,t+1]=CrNi.solve(Maille[:,:,t],A,B,C)
+    source[:,:,t]=np.log(TS.SourceCreation(deltar, deltaz, Nr, Nz, t*deltat, P_las))
     
 execution_time = time.time()-startime 
 print("Computation of solution done in {:.2f} seconds".format(execution_time))
+source=source[:,1:,:]
     
 "Plotting et animation"
 
-plt.animate(Maille,Nt)
-#plt.animate(source,Nt)
+#plt.animate(Maille,Nt)
+plt.animate(source,Nt)
 
 
             
