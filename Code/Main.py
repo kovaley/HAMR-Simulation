@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import crankNicolson as CrNi
+import euler_Implicite as euImp
 import numpy as np
 import ploting as plt
 import time
@@ -13,10 +13,10 @@ cSpe=423  #J.Kg-1.K-1
 pC=rho*cSpe
 k_para=84 #W.m-1.K-1
 k_perp=84 #W.m-1.K-1
-h=100 #convection
+h=10 #convection
 alpha_para=k_para/(pC)
 alpha_perp=k_perp/(pC)
-Tp=273
+Tp=500
 Tini=300
 P_las=1e-3
 
@@ -24,11 +24,11 @@ P_las=1e-3
 deltar=1e-8;#m
 deltaz=1e-8;#m
 deltat=1/(4*(alpha_para/(deltar)**2+alpha_perp/(deltaz)**2)); #s
-
+deltat=1e-10
 "Dimensions"
 Lr=100e-8; #m
 Lz=100e-8;#m
-duration=100*deltat;#s
+duration=500*deltat;#s
 
 Nt=np.int(np.round(duration/deltat));
 Nr=np.int(np.round(Lr/deltar));
@@ -45,7 +45,7 @@ N=Nr*Nz;
 
 
 "Matrices de coefficients d'un cranknicolson"
-A,B,C=CrNi.buildMatrix(Nr,Nz, 
+A,B,C=euImp.buildMatrix(Nr,Nz, 
                          alpha_para, 
                          alpha_perp, 
                          deltar, deltat, deltaz,
@@ -62,20 +62,19 @@ print("Initial conditions Done")
 
 startime = time.time()
 "Iteration temporelle / Calcul de la solution"
-for t in range(1,Nt-1)    :
-    source[:,:,t]=TS.SourceCreation(deltar, deltaz, Nr,
-                                           Nz, t*deltat, P_las)
-    # Maille[:,:,t]=CrNi.solve(Maille[:,:,t],A,B,C,source[:,:,t])
+for t in range(0,Nt-1)    :
+    # source[:,:,t]=TS.SourceCreation(deltar, deltaz, Nr,
+                                           # Nz, t*deltat, P_las)
+    Maille[:,:,t+1]=euImp.solve(Maille[:,:,t],A,B,C,source[:,:,t])
     
     
 execution_time = time.time()-startime 
 print("Computation of solution done in {:.2f} seconds".format(execution_time))
-source=source[:,1:,:]
     
 "Plotting et animation"
 
-# plt.animate(Maille,Nt)
-plt.animate(source,Nt)
+plt.animate(Maille,Nt)
+# plt.animate(source,Nt)
 
 
 print("Plotting Done")         
