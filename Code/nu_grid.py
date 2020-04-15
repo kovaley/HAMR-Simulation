@@ -20,13 +20,13 @@ def get_grid( Nr, Nz, a, k):
     dr = k*(np.exp(a*r/Nr)-1)/(np.exp(a)-1)
     dz = k*(np.exp(a*z/Nz)-1)/(np.exp(a)-1)
     
-    return [dr, dz]
+    return dr, dz
 
-Nr = 100
-Nz = Nr
-a = 5
-k = 1 #m
+# Nr = 100
+# Nz = Nr
+# a = 5
+# k = 1 #m
 
 
-[dr, dz] = get_grid(Nr, Nz, a, k)
-plt.plot(np.arange(Nr+1),dr)
+# [dr, dz] = get_grid(Nr, Nz, a, k)
+# plt.plot(np.arange(Nr+1),dr)

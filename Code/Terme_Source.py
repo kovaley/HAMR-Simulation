@@ -19,8 +19,8 @@ def SourceCreation(dr, dz, Nr, Nz, t, P_las):
     
     for i in range(0,Nz):
         for j in range(0,Nr):
-                r =  dr*j
-                z =  dz*i+2e-9 #m  
+                r =  dr[j]*j
+                z =  dz[i]*i+2e-9 #m  
 
                 Source[i,j] = 4*sigma*a**4*P_las/(c*np.pi*eps_0*n_air*(r**2+z**2)**5) * ((3*r**2)**2 \
                            + (3*r*z)**2) * np.sin(omega*(t-t_0))**2*np.exp(-(t-t_0)**2/tau_0**2) \
