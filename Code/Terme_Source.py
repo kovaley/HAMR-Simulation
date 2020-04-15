@@ -11,8 +11,9 @@ def SourceCreation(dr, dz, Nr, Nz, t, P_las):
     omega = c*k #rad/s
     eps_0 = 8.85418782e-12 #F/m
     n_air = 1
-    tau_0 = 10e-9 #ns
-    t_0 = 5*tau_0
+    tau_fwhm = 3e-9 #s
+    tau_0 = tau_fwhm/(2*np.sqrt(np.log(2))) #s
+    t_0 = 5*tau_0 #s
     Im_n = 4.73 
     Source=np.zeros((Nz,Nr))
     
