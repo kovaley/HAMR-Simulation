@@ -10,7 +10,7 @@ Created on Wed Apr 15 16:02:15 2020
 # Le paramètre k représente la dimension du domaine de simulation.
 # a est le taux de streching de la grille. Plus a est grand et plus la grille est étirée.
 import numpy as np
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 
 def get_grid( Nr, Nz, a, k):

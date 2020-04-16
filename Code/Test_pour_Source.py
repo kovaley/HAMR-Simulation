@@ -16,8 +16,8 @@ Nr = 100
 Nz = 100
 r_pos = 1e-9*np.arange(Nr) #m
 z_pos = 1e-9*np.arange(Nz) #m
-dt = 1e-11 #s
-Nt = 100
+dt = 1e-10 #s
+Nt = 150
 
 source=np.zeros((Nz,Nr, Nt))
 for t in range(0,Nt-1):
