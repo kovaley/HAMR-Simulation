@@ -34,8 +34,12 @@ Nz=100;
 duration=Nt*deltat;#s
 "Maillage"
 a=10
-k=10e-9
-r_pos, z_pos, deltar,deltaz=nu_grid.get_grid(Nr,Nz,a,k);
+k=100e-9 #Domaine de simulation
+# r_pos, z_pos, deltar,deltaz=nu_grid.get_grid(Nr,Nz,a,k);
+r_pos = k/Nr*np.arange(Nr+1)
+z_pos = k/Nz*np.arange(Nz+1)
+deltar = k/Nr*np.ones(Nr)
+deltaz = k/Nz*np.ones(Nz)
 
 # deltat=1/(4*(alpha_para/(deltar)**2+alpha_perp/(deltaz)**2)); #s
 
