@@ -17,12 +17,12 @@ k_perp=84 #W.m-1.K-1
 h=10 #convection
 alpha_para=k_para/(pC)
 alpha_perp=k_perp/(pC)
-Tp=300
-Tini=300
+Tp=0
+Tini=0
 P_las=1e-3
 
 "Pas de temps"
-deltat=1e-11
+deltat=1e-10
 
 "Dimensions"
 
@@ -68,13 +68,17 @@ Maille = np.zeros((Nz,Nr,Nt));
 Maille[:,:,0]=Tini
 
 source=np.zeros((Nz,Nr,Nt))
+for t in range(0,Nt-1)    :
+    source[int(Nz/2),int(Nr/2),t]=1000
+    
+    
 print("Initial conditions Done")
 
 startime = time.time()
 "Iteration temporelle / Calcul de la solution"
 for t in range(0,Nt-1)    :
-    source[:,:,t]=deltat*TS.SourceCreation(r_pos, z_pos, Nr,
-                                            Nz, t*deltat, P_las)/pC
+    # source[:,:,t]=deltat*TS.SourceCreation(r_pos, z_pos, Nr,
+                                            # Nz, t*deltat, P_las)/pC
     Maille[:,:,t+1]=euImp.solve(Maille[:,:,t],A,B,C,source[:,:,t])
     
     
@@ -84,7 +88,7 @@ print("Computation of solution done in {:.2f} seconds".format(execution_time))
 "Plotting et animation"
 
 plt.animate(Maille,Nt)
-plt.animate(source,Nt)
+# plt.animate(source,Nt)
 
 
 print("Plotting Done")         
