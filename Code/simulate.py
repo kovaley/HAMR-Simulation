@@ -87,13 +87,13 @@ def simulate(P_las,Nz,Nr,Nt,Lr,Lz,duration):
     
     return Maille
     
-P_las_vec=[1,2,4,8]*1e-3   #W  
-resultats=np.zeros((Nz,Nr,Nt,np.len(P_las_vec)))  
+P_las=2**np.arange(3)*1e-3   #W  
+resultats=np.zeros((Nz,Nr,Nt,np.len(P_las)))  
 
 
 
-for n in range(0,len(P_las_vec)):
-    resultats[:,:,:,n]=simulate(P_las,Nz,Nr,Nt,Lr,Lz,duration)
+for n in range(0,len(P_las)):
+    resultats[:,:,:,n]=simulate(P_las[n],Nz,Nr,Nt,Lr,Lz,duration)
 
 
 "Plotting et animation"
