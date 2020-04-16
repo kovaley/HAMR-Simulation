@@ -28,9 +28,6 @@ deltat=5e-10;
 deltar=1e-9;
 deltaz=1e-9;
 
-Nr=int(np.round(Lr/deltar))
-Nz=int(np.round(Lz/deltaz))
-Nt=int(np.round(duration/deltat))
 
 def simulate(P_las,deltaz,deltar,deltat,Lr,Lz,duration):
     
@@ -96,7 +93,7 @@ resultats=np.zeros((Nz,Nr,Nt,len(P_las)))
 
 
 for n in range(0,len(P_las)):
-    resultats[:,:,:,n]=simulate(P_las[n],Nz,Nr,Nt,Lr,Lz,duration)
+    resultats[:,:,:,n]=simulate(P_las[n],deltaz,deltar,deltat,Lr,Lz,duration)
 
 
 "Plotting et animation"
