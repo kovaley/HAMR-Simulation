@@ -17,8 +17,8 @@ k_perp=84 #W.m-1.K-1
 h=10 #convection
 alpha_para=k_para/(pC)
 alpha_perp=k_perp/(pC)
-Tp=0
-Tini=0
+Tp=300
+Tini=300
 P_las=1e-3
 
 "Pas de temps"
@@ -26,30 +26,22 @@ deltat=1e-9
 
 "Dimensions"
 
-Nt=100;
-Nr=100;
-Nz=100;
+Nt=200;
+Nr=200;
+Nz=200;
 
 
 duration=Nt*deltat;#s
 "Maillage"
 a=10
-k=100e-9 #Domaine de simulation
+k=300e-9 #Domaine de simulation
 # r_pos, z_pos, deltar,deltaz=nu_grid.get_grid(Nr,Nz,a,k);
 r_pos = k/Nr*np.arange(Nr+1)
 z_pos = k/Nz*np.arange(Nz+1)
 deltar = k/Nr*np.ones(Nr)
 deltaz = k/Nz*np.ones(Nz)
-
-# deltat=1/(4*(alpha_para/(deltar)**2+alpha_perp/(deltaz)**2)); #s
-
-
-# "Condition de stabilité"
-# crit=deltat*(alpha_para/(deltar)**2+alpha_perp/(deltaz)**2)
-# if crit>0.5:
-#     print("big, ça sera pas stable")
  
-# print(Nr,Nz,Nt)
+print(Nr,Nz,Nt)
 
 N=Nr*Nz;
 
@@ -68,21 +60,15 @@ Maille = np.zeros((Nz,Nr,Nt));
 Maille[:,:,0]=Tini
 
 source=np.zeros((Nz,Nr,Nt))
-for t in range(0,Nt-1)   :
-    for i in range(0,Nr-1) :
-        for j in range(0,Nz-1) :
-            if (j>50) :
-                source[j,i,t]=100
-    
-    
+  
     
 print("Initial conditions Done")
 
 startime = time.time()
 "Iteration temporelle / Calcul de la solution"
 for t in range(0,Nt-1)    :
-    # source[:,:,t]=deltat*TS.SourceCreation(r_pos, z_pos, Nr,
-                                            # Nz, t*deltat, P_las)/pC
+    source[:,:,t]=deltat*TS.SourceCreation(r_pos, z_pos, Nr,
+                                            Nz, t*deltat, P_las)/pC
     
     Maille[:,:,t+1]=euImp.solve(Maille[:,:,t],A,B,C,source[:,:,t])
     
@@ -93,7 +79,7 @@ print("Computation of solution done in {:.2f} seconds".format(execution_time))
 "Plotting et animation"
 
 plt.animate(Maille,Nt)
-# plt.animate(source,Nt)
+plt.animate(source,Nt)
 
 
 print("Plotting Done")         
