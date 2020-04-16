@@ -24,10 +24,13 @@ Lr=300e-9
 Lz=300e-9
 duration=50e-9
 "Nombre de celulles"
-deltat=5e-10;
-deltar=1e-8;
-deltaz=1e-8;
+deltat=0.5e-9;
+deltar=3e-9;
+deltaz=3e-9;
 
+Nr=int(np.round(Lr/deltar))
+Nz=int(np.round(Lz/deltaz))
+Nt=int(np.round(duration/deltat))
 
 def simulate(P_las,deltaz,deltar,deltat,Lr,Lz,duration):
     
@@ -87,7 +90,7 @@ def simulate(P_las,deltaz,deltar,deltat,Lr,Lz,duration):
     
     return Maille
     
-P_las=2**np.arange(3)*1e-3   #W  
+P_las=10**np.arange(3)*1e-3   #W  
 resultats=[]
 
 print(len(P_las))
