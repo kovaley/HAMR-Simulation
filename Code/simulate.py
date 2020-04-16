@@ -25,8 +25,8 @@ Lz=300e-9
 duration=50e-9
 "Nombre de celulles"
 deltat=5e-10;
-deltar=1e-9;
-deltaz=1e-9;
+deltar=1e-8;
+deltaz=1e-8;
 
 
 def simulate(P_las,deltaz,deltar,deltat,Lr,Lz,duration):
@@ -90,16 +90,16 @@ def simulate(P_las,deltaz,deltar,deltat,Lr,Lz,duration):
 P_las=2**np.arange(3)*1e-3   #W  
 resultats=[]
 
-
+print(len(P_las))
 
 for n in range(0,len(P_las)):
-    resultats[n]=simulate(P_las[n],deltaz,deltar,deltat,Lr,Lz,duration)
+    resultats.append(simulate(P_las[n],deltaz,deltar,deltat,Lr,Lz,duration))
 
 
 "Plotting et animation"
 
-plt.animate(resultats[0],Nt)
-plt.animate(resultats[1],Nt)
+plt.animate(resultats[0])
+plt.animate(resultats[1])
 # plt.animate(source,Nt)
 
 
