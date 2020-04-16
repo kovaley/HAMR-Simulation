@@ -22,7 +22,7 @@ Tini=0
 P_las=1e-3
 
 "Pas de temps"
-deltat=1e-10
+deltat=1e-9
 
 "Dimensions"
 
@@ -68,8 +68,12 @@ Maille = np.zeros((Nz,Nr,Nt));
 Maille[:,:,0]=Tini
 
 source=np.zeros((Nz,Nr,Nt))
-for t in range(0,Nt-1)    :
-    source[int(Nz/2),int(Nr/2),t]=1000
+for t in range(0,Nt-1)   :
+    for i in range(0,Nr-1) :
+        for j in range(0,Nz-1) :
+            if (j>50) :
+                source[j,i,t]=100
+    
     
     
 print("Initial conditions Done")
@@ -79,6 +83,7 @@ startime = time.time()
 for t in range(0,Nt-1)    :
     # source[:,:,t]=deltat*TS.SourceCreation(r_pos, z_pos, Nr,
                                             # Nz, t*deltat, P_las)/pC
+    
     Maille[:,:,t+1]=euImp.solve(Maille[:,:,t],A,B,C,source[:,:,t])
     
     

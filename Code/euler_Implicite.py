@@ -16,8 +16,9 @@ import numpy as np
 def solve(T1,A,B,C,source):
     "solve A*T=B*T1+C+source"
     d=B.dot(T1.flatten().reshape(-1, 1))+C+source.flatten().reshape(-1,1);
-    T=lina.spsolve(A,d)
     
+    T=lina.spsolve(A,d)
+    print(T[5050])
     return T.reshape(T1.shape)
 
 "Heatbath sur deux frontieres, convection et axe de simetrie"
