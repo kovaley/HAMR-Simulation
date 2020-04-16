@@ -8,18 +8,20 @@ Created on Wed Apr  8 11:57:22 2020
 import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib.animation as animation
-
+import matplotlib.colors as colors
+from matplotlib.cm import ScalarMappable as sm
 
 def animate(maille,NT):
     fig1 = plt.figure()
+    vmax=np.amax(maille)
+    vmin=np.amin(maille)
+    norm=colors.Normalize(vmin=vmin,vmax=vmin)
     ims = [(plt.pcolormesh(maille[:,:,0]),)]
-    ims.append((plt.pcolormesh(maille[:,:,1],vmin=np.amin(maille[:,:,1]),vmax=np.amax(maille[:,:,1])),))
-    plt.colorbar()
-    for i in np.arange(2, NT):
-        ims.append((plt.pcolormesh(maille[:,:,i],vmin=np.amin(maille[:,:,1]),vmax=np.amax(maille[:,:,1])),))
+    for i in np.arange(1, NT):
+        ims.append((plt.pcolormesh(maille[:,:,i],vmin=vmin,vmax=vmax),))
         
     plt.gca().invert_yaxis()
-    
+    plt.colorbar(sm(norm=norm))
     im_ani = animation.ArtistAnimation(fig1, ims, interval=10, repeat_delay=1000,
                                    blit=True)
     
