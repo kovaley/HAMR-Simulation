@@ -14,8 +14,10 @@ from matplotlib.cm import ScalarMappable as sm
 def animate(maille,NT):
     fig1 = plt.figure()
     vmax=np.amax(maille)
+    print(vmax)
     vmin=np.amin(maille)
-    norm=colors.Normalize(vmin=vmin,vmax=vmin)
+    print(vmin)
+    norm=colors.Normalize(vmin=vmin,vmax=vmax)
     ims = [(plt.pcolormesh(maille[:,:,0]),)]
     for i in np.arange(1, NT):
         ims.append((plt.pcolormesh(maille[:,:,i],vmin=vmin,vmax=vmax),))
