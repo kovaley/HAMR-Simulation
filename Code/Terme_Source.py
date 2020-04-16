@@ -3,7 +3,7 @@
 import numpy as np
 
 
-def SourceCreation(dr, dz, Nr, Nz, t, P_las):
+def SourceCreation(r_pos, z_pos, Nr, Nz, t, P_las):
     k = 2*np.pi/(780e-9) #m^-1
     sigma = 4.961e5 #(ohm m)^-1
     a = 10e-9 #m
@@ -19,8 +19,8 @@ def SourceCreation(dr, dz, Nr, Nz, t, P_las):
     
     for i in range(0,Nz):
         for j in range(0,Nr):
-                r =  dr[j]*j
-                z =  dz[i]*i+2e-9 #m  
+                r =  r_pos[j]
+                z =  z_pos[i]+1e-9 #m  
 
                 Source[i,j] = 4*sigma*a**4*P_las/(c*np.pi*eps_0*n_air*(r**2+z**2)**5) * ((3*r**2)**2 \
                            + (3*r*z)**2) * np.sin(omega*(t-t_0))**2*np.exp(-(t-t_0)**2/tau_0**2) \

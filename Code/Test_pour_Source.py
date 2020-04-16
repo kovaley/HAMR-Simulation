@@ -11,21 +11,20 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 P_las = 1e-3 #W
-
-dr = 1e-9 #m
-dz = 1e-9 #m
-Nr = 1000 
-Nz = 1000
-dt = 1e-9 #s
-Nt = 10
+pC = 7800*432
+Nr = 100 
+Nz = 100
+r_pos = 1e-9*np.arange(Nr) #m
+z_pos = 1e-9*np.arange(Nz) #m
+dt = 1e-10 #s
+Nt = 50
 
 source=np.zeros((Nz,Nr))
-source[:,:]=TS.SourceCreation(dr, dz, Nr, Nz, Nt*dt, P_las)
+source[:,:]=dt/pc*TS.SourceCreation(r_pos, z_pos, Nr, Nz, Nt*dt, P_las)
 
 
 plt.matshow(source)
 plt.figure(2)
-x = np.linspace(0,dz*Nz,Nz)
-y = source[:,1]
-plt.plot(x,y)
+y = source[1,:]
+plt.plot(r_pos,y)
 

@@ -35,7 +35,7 @@ duration=Nt*deltat;#s
 "Maillage"
 a=10
 k=10e-9
-deltar,deltaz=nu_grid.get_grid(Nr,Nz,a,k);
+r_pos, z_pos, deltar,deltaz=nu_grid.get_grid(Nr,Nz,a,k);
 
 # deltat=1/(4*(alpha_para/(deltar)**2+alpha_perp/(deltaz)**2)); #s
 
@@ -69,7 +69,7 @@ print("Initial conditions Done")
 startime = time.time()
 "Iteration temporelle / Calcul de la solution"
 for t in range(0,Nt-1)    :
-    source[:,:,t]=deltat*TS.SourceCreation(deltar, deltaz, Nr,
+    source[:,:,t]=deltat*TS.SourceCreation(r_pos, z_pos, Nr,
                                             Nz, t*deltat, P_las)/pC
     Maille[:,:,t+1]=euImp.solve(Maille[:,:,t],A,B,C,source[:,:,t])
     
