@@ -79,7 +79,7 @@ print("Computation of solution done in {:.2f} seconds".format(execution_time))
 "Plotting et animation"
 
 plt.animate(Maille,Nt)
-plt.animate(source,Nt)
+# plt.animate(source,Nt)
 
 
 print("Plotting Done")         
