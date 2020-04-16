@@ -30,16 +30,14 @@ def buildMatrix(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz,pC,h,Tp):
     D=lil((N,1))
     
     
-    "Coefficients"
-    b = alpha_perp*deltat/(2*deltar**2)
-    c = alpha_para*deltat/(2*deltaz**2)
-    a = 1+2*b+2*c
-    d= 1-2*b-2*c
-    "Construction des Matrices de coefficients Step 1"
+
     
     for i in range(0,Nr):
         for j in range(0,Nz): 
-        
+            b = alpha_perp*deltat/(2*deltar[i]**2)
+            c = alpha_para*deltat/(2*deltaz[j]**2)
+            a = 1+2*b+2*c
+            d= 1-2*b-2*c        
             pl=i+j*Nr
             "T=Tp"
             if  (i==Nr-1) |  (j==Nz-1):
@@ -54,14 +52,14 @@ def buildMatrix(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz,pC,h,Tp):
                 
                 'indexe de colonne pour la matrice B'
                 pc=pl;
-                B[pl,pc]=-(3+h*deltaz/(alpha_para*pC));
+                B[pl,pc]=-(3+h*deltaz[j]/(alpha_para*pC));
                 pc=i+(j+1)*Nr;
                 B[pl,pc]=4;
                 pc=i+(j+2)*Nr;
                 B[pl,pc]=-1;
                 
 
-                D[pl,0]=-deltaz*h*Tp/(alpha_para*pC);
+                D[pl,0]=-deltaz[j]*h*Tp/(alpha_para*pC);
             
             elif (i==0) :
                 pc=pl;
@@ -117,11 +115,13 @@ def buildMatrix1(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz,pC,h,Tp):
     N=Nr*Nz;
 
     "B*T(n+1)=C*T+D"
-    B=lil((N,N));
-    C=lil((N,N));
-    D=lil((N,1));
+#    B=lil((N,N));
+#    C=lil((N,N));
+#    D=lil((N,1));
     
-    
+    B=np.zeros((N,N));
+    C=np.zeros((N,N));
+    D=np.zeros((N,N));   
     "Coefficients"
     b = alpha_perp*deltat/(2*deltar**2)
     c = alpha_para*deltat/(2*deltaz**2)
@@ -131,6 +131,11 @@ def buildMatrix1(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz,pC,h,Tp):
     
     for i in range(0,Nr):
         for j in range(0,Nz): 
+            b = alpha_perp*deltat/(2*deltar[i]**2)
+            c = alpha_para*deltat/(2*deltaz[j]**2)
+            a = 1+2*b+2*c
+            d= 1-2*b-2*c        
+            pl=i+j*Nr
         
             pl=i+j*Nr
             "T=Tp"
@@ -138,8 +143,7 @@ def buildMatrix1(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz,pC,h,Tp):
                 pc=pl
                 'Ces elements ne change pas au cours du temps'
                 B[pl,pc]=1;
-                C[pl,pc]=1;
-            
+                D[pl,0]=Tp;
             else :
                 'indexe de colonne pour la matrice B'
                 'termes en i'
@@ -171,8 +175,8 @@ def buildMatrix1(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz,pC,h,Tp):
                 
         
         
-    B=B.tocsr()
-    C=C.tocsr()
-    D=D.tocsr()
+#    B=B.tocsr()
+#    C=C.tocsr()
+#    D=D.tocsr()
     
     return B,C,D
