@@ -24,12 +24,15 @@ Lr=300e-9
 Lz=300e-9
 duration=50e-9
 "Nombre de celulles"
-Nt=100;
-Nr=10;
-Nz=10;
+deltat=5e-10;
+deltar=1e-9;
+deltaz=1e-9;
 
+Nr=int(np.round(Lr/deltar))
+Nz=int(np.round(Lz/deltaz))
+Nt=int(np.round(duration/deltat))
 
-def simulate(P_las,Nz,Nr,Nt,Lr,Lz,duration):
+def simulate(P_las,deltaz,deltar,deltat,Lr,Lz,duration):
     
     "Parametres physiques"
     rho=8900  #kg.m-3
@@ -45,24 +48,24 @@ def simulate(P_las,Nz,Nr,Nt,Lr,Lz,duration):
     alpha_para=k_para/(pC)
     alpha_perp=k_perp/(pC)
     "pas"
-    deltar=Lr/Nr
-    deltaz=Lz/Nz
-    deltat=duration/Nt
+    Nr=int(np.round(Lr/deltar))
+    Nz=int(np.round(Lz/deltaz))
+    Nt=int(np.round(duration/deltat))
     "Positions"
     r_pos = deltar*np.arange(Nr+1)
     z_pos = deltat*np.arange(Nz+1)
     "Vecteur pas"
-    deltar = deltar*np.ones(Nr)
-    deltaz = deltaz*np.ones(Nz)
+    dr_vec = deltar*np.ones(Nr)
+    dz_vec = deltaz*np.ones(Nz)
     
     
-    print(deltar,deltaz,deltat)
+    print(Nr,Nz,Nt)
     
     "Matrices de coefficients"
     A,B,C=euImp.buildMatrix(Nr,Nz, 
                          alpha_para, 
                          alpha_perp, 
-                         deltar, deltat, deltaz,
+                         dr_vec, deltat, dz_vec,
                          pC,h,Tp)
 
     print("Matrix Done")
@@ -88,7 +91,7 @@ def simulate(P_las,Nz,Nr,Nt,Lr,Lz,duration):
     return Maille
     
 P_las=2**np.arange(3)*1e-3   #W  
-resultats=np.zeros((Nz,Nr,Nt,np.len(P_las)))  
+resultats=np.zeros((Nz,Nr,Nt,len(P_las)))  
 
 
 
