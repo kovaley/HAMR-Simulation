@@ -17,16 +17,7 @@ import time
 import Terme_Source as TS
 import nu_grid as nu_grid
 
-"Parametres physiques"
-rho=8900  #kg.m-3
-cSpe=423  #J.Kg-1.K-1
-pC=rho*cSpe
-k_para=84 #W.m-1.K-1
-k_perp=84 #W.m-1.K-1
 
-h=10 #convection
-Tp=300
-Tini=300
 
 "Dimensions"
 Lr=300e-9
@@ -38,8 +29,19 @@ Nr=10;
 Nz=10;
 
 
-def simulate(Plas,Nz,Nr,Nt,Lr,Lz,duration,k_para,k_perp,pC,Tp,Tini,h):
+def simulate(P_las,Nz,Nr,Nt,Lr,Lz,duration):
     
+    "Parametres physiques"
+    rho=8900  #kg.m-3
+    cSpe=423  #J.Kg-1.K-1
+    pC=rho*cSpe
+    k_para=84 #W.m-1.K-1
+    k_perp=84 #W.m-1.K-1
+
+    h=10 #convection
+    Tp=300
+    Tini=300
+
     alpha_para=k_para/(pC)
     alpha_perp=k_perp/(pC)
     "pas"
@@ -85,16 +87,13 @@ def simulate(Plas,Nz,Nr,Nt,Lr,Lz,duration,k_para,k_perp,pC,Tp,Tini,h):
     
     return Maille
     
-  
-simNum=2
-resultats=np.zeros((Nz,Nr,Nt,simNum))  
-# P_las_step=1e-3
-# P_las=P_las_step*np.arange(simNum)
-P_las=1e-3
+P_las_vec=[1,2,4,8]*1e-3   #W  
+resultats=np.zeros((Nz,Nr,Nt,np.len(P_las_vec)))  
 
 
-for n in range(0,simNum):
-    resultats[:,:,:,n]=simulate(P_las,Nz,Nr,Nt,Lr,Lz,duration,k_para,k_perp,pC,Tp,Tini,h)
+
+for n in range(0,len(P_las_vec)):
+    resultats[:,:,:,n]=simulate(P_las,Nz,Nr,Nt,Lr,Lz,duration)
 
 
 "Plotting et animation"
