@@ -22,13 +22,13 @@ Tini=300
 P_las=1e-3
 
 "Pas de temps"
-deltat=1e-9
+deltat=5e-10 # La source est faite pour atteindre son max à 9 ns. Pour dt = 5e-10 s, on a Nt(100)*dt = 50 ns
 
 "Dimensions"
 
-Nt=200;
-Nr=200;
-Nz=200;
+Nt=100;
+Nr=100;
+Nz=100;
 
 
 duration=Nt*deltat;#s

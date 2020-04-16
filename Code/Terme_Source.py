@@ -21,9 +21,9 @@ def SourceCreation(r_pos, z_pos, Nr, Nz, t, P_las):
         for j in range(0,Nr):
                 r =  r_pos[j]
                 z =  z_pos[i]+1e-9 #m  
-                if (1<j<Nz-1) and (1<i<Nr-1):
-                    Source[i,j] = 4*sigma*a**4*P_las/(c*np.pi*eps_0*n_air*(r**2+z**2)**5) * ((3*r**2-1)**2 \
-                            + (3*r*z)**2) * np.sin(omega*(t-t_0))**2*np.exp(-(t-t_0)**2/tau_0**2) \
+                if (0<j<Nz-1) and (0<i<Nr-1):
+                    Source[i,j] = 4*sigma*a**4*P_las/(c*np.pi*eps_0*n_air*(r**2+z**2)**3) * ((3*r**2/(r**2+z**2)-1)**2 \
+                            + (z*r/(r**2+z**2))**2) * np.sin(omega*(t-t_0))**2*np.exp(-(t-t_0)**2/tau_0**2) \
                             *np.exp(-Im_n*np.sqrt(2)*k*(r+z))
     
     
