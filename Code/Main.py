@@ -8,81 +8,37 @@ import time
 import Terme_Source as TS
 import nu_grid as nu_grid
 
-"Parametres physiques"
-rho=8900  #kg.m-3
-cSpe=423  #J.Kg-1.K-1
-pC=rho*cSpe
-k_para=84 #W.m-1.K-1
-k_perp=84 #W.m-1.K-1
-h=10 #convection
-alpha_para=k_para/(pC)
-alpha_perp=k_perp/(pC)
-Tp=300
-Tini=300
-P_las=1e-3
-
-"Pas de temps"
-deltat=5e-10 # La source est faite pour atteindre son max à 9 ns. Pour dt = 5e-10 s, on a Nt(100)*dt = 50 ns
-
 "Dimensions"
+Lr=300e-9
+Lz=300e-9
+duration=50e-9
+"Nombre de celulles"
+deltat=0.5e-9;
+deltar=3e-9;
+deltaz=3e-9;
 
-Nt=100;
-Nr=100;
-Nz=100;
-
-
-duration=Nt*deltat;#s
-"Maillage"
-a=10
-k=300e-9 #Domaine de simulation
-# r_pos, z_pos, deltar,deltaz=nu_grid.get_grid(Nr,Nz,a,k);
-r_pos = k/Nr*np.arange(Nr+1)
-z_pos = k/Nz*np.arange(Nz+1)
-deltar = k/Nr*np.ones(Nr)
-deltaz = k/Nz*np.ones(Nz)
- 
-print(Nr,Nz,Nt)
-
-N=Nr*Nz;
+Nr=int(np.round(Lr/deltar))
+Nz=int(np.round(Lz/deltaz))
+Nt=int(np.round(duration/deltat))
 
 
-"Matrices de coefficients d'un cranknicolson"
-A,B,C=euImp.buildMatrix(Nr,Nz, 
-                         alpha_para, 
-                         alpha_perp, 
-                         deltar, deltat, deltaz,
-                         pC,h,Tp)
+P_las=10**np.arange(3)*1e-3   #W  
+resultats=[]
 
-print("Matrix Done")
+print(len(P_las))
 
-"Temperature initiale."
-Maille = np.zeros((Nz,Nr,Nt));
-Maille[:,:,0]=Tini
+for n in range(0,len(P_las)):
+    resultats.append(simulate(P_las[n],deltaz,deltar,deltat,Lr,Lz,duration))
 
-source=np.zeros((Nz,Nr,Nt))
-  
-    
-print("Initial conditions Done")
 
-startime = time.time()
-"Iteration temporelle / Calcul de la solution"
-for t in range(0,Nt-1)    :
-    source[:,:,t]=deltat*TS.SourceCreation(r_pos, z_pos, Nr,
-                                            Nz, t*deltat, P_las)/pC
-    
-    Maille[:,:,t+1]=euImp.solve(Maille[:,:,t],A,B,C,source[:,:,t])
-    
-    
-execution_time = time.time()-startime 
-print("Computation of solution done in {:.2f} seconds".format(execution_time))
-    
 "Plotting et animation"
 
-plt.animate(Maille)
+plt.animate(resultats[0])
+plt.animate(resultats[1])
 # plt.animate(source,Nt)
 
 
-print("Plotting Done")         
+print("Plotting Done")   
 
 
           
