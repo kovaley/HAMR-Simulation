@@ -11,7 +11,7 @@ import matplotlib.animation as animation
 import matplotlib.colors as colors
 from matplotlib.cm import ScalarMappable as sm
 
-def animate(maille,NT):
+def animate(maille):
     fig1 = plt.figure()
     vmax=np.amax(maille)
     print(vmax)
@@ -19,7 +19,7 @@ def animate(maille,NT):
     print(vmin)
     norm=colors.Normalize(vmin=vmin,vmax=vmax)
     ims = [(plt.pcolormesh(maille[:,:,0]),)]
-    for i in np.arange(1, NT):
+    for i in np.arange(1, np.shape(maille)[2]):
         ims.append((plt.pcolormesh(maille[:,:,i],vmin=vmin,vmax=vmax),))
         
     plt.gca().invert_yaxis()

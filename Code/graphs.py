@@ -37,7 +37,6 @@ for fact in [1, 1/2, 1/4, 1/8] :
 
 
 d_ar=[]
-tini_ar=[]
 tinv_ar=[]
 mem_ar=np.zeros(0)
 Tm_ar=[]
