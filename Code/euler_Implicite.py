@@ -54,14 +54,14 @@ def buildMatrix(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz,pC,h,Tp):
                 
                 'indexe de colonne pour la matrice B'
                 pc=pl;
-                B[pl,pc]=-(3+h*deltaz[j]/(alpha_para*pC));
+                B[pl,pc]=-(3+2*h*deltaz[j]/(alpha_para*pC));
                 pc=i+(j+1)*Nr;
                 B[pl,pc]=4;
                 pc=i+(j+2)*Nr;
                 B[pl,pc]=-1;
                 
 
-                D[pl,0]=-deltaz[j]*h*Tp/(alpha_para*pC);
+                D[pl,0]=-2*deltaz[j]*h*Tp/(alpha_para*pC);
             
             elif (i==0) :
                 pc=pl;

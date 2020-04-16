@@ -13,8 +13,9 @@ import matplotlib.animation as animation
 def animate(maille,NT):
     fig1 = plt.figure()
     ims = [(plt.pcolormesh(maille[:,:,0]),)]
+    ims.append((plt.pcolormesh(maille[:,:,1],vmin=np.amin(maille[:,:,1]),vmax=np.amax(maille[:,:,1])),))
     plt.colorbar()
-    for i in np.arange(1, NT):
+    for i in np.arange(2, NT):
         ims.append((plt.pcolormesh(maille[:,:,i],vmin=np.amin(maille[:,:,1]),vmax=np.amax(maille[:,:,1])),))
         
     plt.gca().invert_yaxis()
