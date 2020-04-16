@@ -71,30 +71,44 @@ print("Initial conditions Done")
 startime = time.time()
 "Iteration temporelle / Calcul de la solution"
 for t in range(0,Nt-1)    :
-    source[:,:,t]=deltat*TS.SourceCreation(r_pos, z_pos, Nr,
-                                            Nz, t*deltat, P_las)/pC
+#    source[:,:,t]=deltat*TS.SourceCreation(r_pos, z_pos, Nr,
+#                                            Nz, t*deltat, P_las)/pC
+#    Maille[:,:,t+1]=euImp.solve(Maille[:,:,t],A,B,C,source[:,:,t])
     
-    Maille[:,:,t+1]=euImp.solve(Maille[:,:,t],A,B,C,source[:,:,t])
+    
+    fastsource=deltat*TS.SourceCreation(r_pos, z_pos, Nr,
+                                            Nz, t*deltat, P_las)/pC
+    Maille[:,:,t+1]=euImp.solve(Maille[:,:,t],A,B,C,fastsource)
     
     
 execution_time = time.time()-startime 
 print("Computation of solution done in {:.2f} seconds".format(execution_time))
     
 "Plotting et animation"
-
-plt.animate(Maille,Nt)
-plt.animate(source,Nt)
+#
+#plt.animate(Maille,Nt)
+#plt.animate(source,Nt)
 
 
 print("Plotting Done")
 
 '----------------------------------------------------------------------------------------------'
-Tcurie=8
-rayonbit=Maille[:,10,:]>Tcurie
+d_ar=[]
+tini_ar=[]
+tinv_ar=[]
+mem_ar=np.zeros(0)
+Tm_ar=[]
+P_las=10e-3
 
 
 
 
+Tcurie=310
+rayonbit=deltar*np.sum(Maille[:,10,:]>Tcurie,axis=0)
+plot.plot(deltat*np.arange(0,Nt),rayonbit)
+
+
+np.append(mem_ar, 8*(Nr*Nz*Nt)^2)
 
 
 
