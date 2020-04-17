@@ -7,11 +7,11 @@ import ploting as plt
 import time
 import Terme_Source as TS
 import nu_grid as nu_grid
-import simulate 
+import simulate as simulate
 import matplotlib.pyplot as plot
 "constants"
-Tcurie=310
-sampling_depth=9
+Tcurie=1394 #K
+sampling_depth=9 #cellules
 
 "Dimensions"
 Lr=300e-9
@@ -28,7 +28,7 @@ Nz=int(np.round(Lz/deltaz))
 Nt=int(np.round(duration/deltat))
 
 
-P_las=10**np.arange(3)*1e-3   #W  
+P_las=10**np.arange(1)*1e-3   #W  
 resultats=[]
 rayonbit=[]
 print(len(P_las))
