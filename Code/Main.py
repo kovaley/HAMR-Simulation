@@ -44,8 +44,8 @@ plot.xlabel('temps [ns]')
 plot.ylabel('rayon d''un bit [nm]')
 plot.title('Rayon d''un bit selon le temps d''une impulsion')
 
-#fig1, ax1 = plt.animate(resultats[0])
-#fig2, ax2 = plt.animate(resultats[1])
+#im.ani1 = plt.animate(resultats[0])
+#im_ani2 = plt.animate(resultats[1])
 # plt.animate(source,Nt)
 
 

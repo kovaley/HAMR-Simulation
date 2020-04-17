@@ -24,7 +24,7 @@ print(Nt)
 
 source=np.zeros((Nz,Nr, Nt))
 for t in range(0,Nt-1):
-    source[:,:,t]=np.log(dt/pC*TS.SourceCreation(r_pos, z_pos, Nr, Nz, t*dt, P_las))
+    source[:,:,t]=dt/pC*TS.SourceCreation(r_pos, z_pos, Nr, Nz, t*dt, P_las)
 
 
 im_ani = ploting.animate(source)
@@ -34,4 +34,4 @@ plt.xlabel('rayon [nm]')
 plt.ylabel('pronfondeur [nm]')
 plt.xlim(0,r_pos[-1]*1e9)
 plt.ylim(z_pos[-1]*1e9,0)
-# im_ani.save('source_sans_log.mp4', metadata={'artist':'Les gars du projets'})
+# im_ani.save('../../../source_sans_log.mp4', metadata={'artist':'Les gars du projets'})
