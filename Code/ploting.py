@@ -30,3 +30,5 @@ def animate(maille):
 # To save this second animation with some metadata, use the following command:
     im_ani.save('im.mp4', metadata={'artist':'Les gars du projets'})
     plt.show()
+    
+    return im_ani

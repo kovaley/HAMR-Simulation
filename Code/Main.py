@@ -14,11 +14,11 @@ Tcurie=1394 #K
 sampling_depth=9 #cellules
 
 "Dimensions"
-Lr=500e-9
-Lz=500e-9
+Lr=1500e-9
+Lz=1500e-9
 duration=20e-9
 "Nombre de celulles"
-deltat=0.05e-9;
+deltat=0.1e-9;
 deltar=5e-9;
 deltaz=5e-9;
 
@@ -38,11 +38,14 @@ for n in range(0,len(P_las)):
     rayonbit.append(deltar*np.sum(resultats[n][sampling_depth,:,:]>Tcurie,axis=0))
 
 "Plotting et animation"
+
 plot.plot(deltat*np.arange(0,Nt)*10**9,rayonbit[0]*10**9)
 plot.xlabel('temps [ns]')
 plot.ylabel('rayon d''un bit [nm]')
-#plt.animate(resultats[0])
-#plt.animate(resultats[1])
+plot.title('Rayon d''un bit selon le temps d''une impulsion')
+
+#fig1, ax1 = plt.animate(resultats[0])
+#fig2, ax2 = plt.animate(resultats[1])
 # plt.animate(source,Nt)
 
 
