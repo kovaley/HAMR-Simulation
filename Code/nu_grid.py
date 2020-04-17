@@ -26,22 +26,22 @@ def get_grid( Nr, Nz, a, k):
     dz = dz*np.ones(Nz)
     return r_pos, z_pos, dr, dz
 
-Nr = 10
-Nz = Nr
-a = 5
-k = 1 #m
+# Nr = 10
+# Nz = Nr
+# a = 5
+# k = 1 #m
 
 
-r_pos, z_pos, dr, dz = get_grid(Nr, Nz, a, k)
-f = np.zeros((Nr,Nz))
-for a in range(Nr):
-    f[a] = dr
+# r_pos, z_pos, dr, dz = get_grid(Nr, Nz, a, k)
+# f = np.zeros((Nr,Nz))
+# for a in range(Nr):
+#     f[a] = dr
 
-plt.figure(1)
-for a in range(Nr):
-    plt.plot(dr,f[:,a], color='black')
-    plt.plot(dr[a]*np.ones(Nr),f[a,:], color='black')
+# plt.figure(1)
+# for a in range(Nr):
+#     plt.plot(dr,f[:,a], color='black')
+#     plt.plot(dr[a]*np.ones(Nr),f[a,:], color='black')
     
-plt.title('Maillage non-uniforme de type exponnentiel')
-plt.xlabel('r')
-plt.ylabel('z')
+# plt.title('Maillage non-uniforme de type exponnentiel')
+# plt.xlabel('r')
+# plt.ylabel('z')
