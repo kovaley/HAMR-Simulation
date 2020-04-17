@@ -66,7 +66,7 @@ def simulate(P_las,deltaz,deltar,deltat,Lr,Lz,duration):
     startime = time.time()
     "Iteration temporelle / Calcul de la solution"
     for t in range(0,Nt-1)    :
-        source[:,:,t]=deltat*TS.SourceCreation(r_pos, z_pos, Nr,
+        source[:,:,t]=1e-3*deltat*TS.SourceCreation(r_pos, z_pos, Nr,
                                                 Nz, t*deltat, P_las)/pC
         
         Maille[:,:,t+1]=euImp.solve(Maille[:,:,t],A,B,C,source[:,:,t])

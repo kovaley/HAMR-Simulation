@@ -14,13 +14,13 @@ Tcurie=1394 #K
 sampling_depth=9 #cellules
 
 "Dimensions"
-Lr=300e-9
-Lz=300e-9
-duration=50e-9
+Lr=500e-9
+Lz=500e-9
+duration=20e-9
 "Nombre de celulles"
-deltat=0.5e-9;
-deltar=3e-9;
-deltaz=3e-9;
+deltat=0.05e-9;
+deltar=5e-9;
+deltaz=5e-9;
 
 
 Nr=int(np.round(Lr/deltar))
@@ -35,11 +35,12 @@ print(len(P_las))
 
 for n in range(0,len(P_las)):
     resultats.append(simulate.simulate(P_las[n],deltaz,deltar,deltat,Lr,Lz,duration))
-    rayonbit.append(deltar*np.sum(resultats[n][:,sampling_depth,:]>Tcurie,axis=0))
+    rayonbit.append(deltar*np.sum(resultats[n][sampling_depth,:,:]>Tcurie,axis=0))
 
 "Plotting et animation"
-plot.plot(deltat*np.arange(0,Nt),rayonbit[0])
-
+plot.plot(deltat*np.arange(0,Nt)*10**9,rayonbit[0]*10**9)
+plot.xlabel('temps [ns]')
+plot.ylabel('rayon d''un bit [nm]')
 #plt.animate(resultats[0])
 #plt.animate(resultats[1])
 # plt.animate(source,Nt)
