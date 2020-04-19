@@ -17,7 +17,7 @@ Nr = 100
 Nz = 100
 r_pos = 1e-9*np.arange(Nr) #m
 z_pos = 1e-9*np.arange(Nz) #m
-dt = 0.2e-9 #s
+dt = 0.1e-9 #s
 duree = 20e-9 #s
 Nt = int(np.round(duree/dt))
 print(Nt)
@@ -32,6 +32,5 @@ im_ani = ploting.animate(source)
 plt.title('Source pulsée en Kelvin')
 plt.xlabel('rayon [nm]')
 plt.ylabel('pronfondeur [nm]')
-plt.xlim(0,r_pos[-1]*1e9)
-plt.ylim(z_pos[-1]*1e9,0)
+
 # im_ani.save('../../../source_sans_log.mp4', metadata={'artist':'Les gars du projets'})
