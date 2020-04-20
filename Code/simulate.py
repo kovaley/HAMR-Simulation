@@ -58,8 +58,20 @@ def simulate(P_las,deltaz,deltar,deltat,Lr,Lz,duration):
     
     "Temperature initiale."
     Maille = np.zeros((Nz,Nr,Nt));
+    # for i in range(0,Nr):
+    #     for j in range(0,Nz):
+    #         if (30<j<60) and (30<i<60):
+    #             Maille[i,j,0]=1000
+    #         else:
     Maille[:,:,0]=Tini
+    
     source=np.zeros((Nz,Nr,Nt))
+    # for t in range(0,Nt):
+    #     for i in range(0,Nr):
+    #         for j in range(0,Nz):
+    #             if (30<j<60) and (30<i<60):
+    #                 source[i,j,t]=10
+   
         
     print("Initial conditions Done")
               

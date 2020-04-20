@@ -24,11 +24,15 @@ def animate(maille):
         
     plt.gca().invert_yaxis()
     plt.colorbar(sm(norm=norm))
-    im_ani = animation.ArtistAnimation(fig1, ims, interval=150, repeat_delay=1000,
+    plt.title('Source de temperature carrée [K] (CF Dirichlet)')
+    plt.xlabel('rayon [nm]')
+    plt.ylabel('pronfondeur [nm]')
+    
+    im_ani = animation.ArtistAnimation(fig1, ims, interval=50, repeat_delay=1000,
                                    blit=True)
     
 # To save this second animation with some metadata, use the following command:
     im_ani.save('im.mp4', metadata={'artist':'Les gars du projets'})
     plt.show()
     
-    return im_ani
+    
