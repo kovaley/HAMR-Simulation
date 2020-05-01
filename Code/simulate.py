@@ -59,22 +59,23 @@ def simulate(P_las,deltaz,deltar,deltat,Lr,Lz,duration):
     "Temperature initiale."
     Maille = np.zeros((Nz,Nr,Nt));
     Maille[:,:,0]=Tini
-    source=np.zeros((Nz,Nr,Nt))
+    source=np.zeros((Nz,Nr))
         
     print("Initial conditions Done")
               
     startime = time.time()
     "Iteration temporelle / Calcul de la solution"
     for t in range(0,Nt-1)    :
-        source[:,:,t]=deltat*TS.SourceCreation(r_pos, z_pos, Nr,
+        source[:,:]=deltat*TS.SourceCreation(r_pos, z_pos, Nr,
                                                 Nz, t*deltat, P_las)/pC
         
-        Maille[:,:,t+1]=euImp.solve(Maille[:,:,t],A,B,C,source[:,:,t])
+        Maille[:,:,t+1]=euImp.solve(Maille[:,:,t],A,B,C,source[:,:])
         
-    execution_time = time.time()-startime 
+    execution_time = time.time()-startime
+    memory_use = Maille.size*Maille.itemsize
     print("Computation of solution done in {:.2f} seconds".format(execution_time))
     
-    return Maille
+    return Maille, execution_time, memory_use
 #    return Maille,source
     
 
