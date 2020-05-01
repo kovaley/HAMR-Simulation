@@ -16,11 +16,11 @@ sampling_depth=9 #cellules
 "Dimensions"
 Lr=500e-9
 Lz=500e-9
-duration=20e-9
+duration=2e-9
 "Nombre de celulles"
 deltat=0.2e-9;
-deltar=5e-9;
-deltaz=5e-9;
+deltar=1e-9;
+deltaz=1e-9;
 
 
 Nr=int(np.round(Lr/deltar))

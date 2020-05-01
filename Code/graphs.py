@@ -21,18 +21,18 @@ Lz=300e-9
 duration=50e-9
 "Nombre de celulles"
 Nt=100;
-Nr=10;
-Nz=10;
+Nr=100;
+Nz=100;
 
-dr=Lr/Nr;
-dz=Lz/Nz;
-dt=duration/Nt
+deltar=Lr/Nr;
+deltaz=Lz/Nz;
+deltat=duration/Nt
 
 P_las=10e-3
 
 
-for fact in [1, 1/2, 1/4, 1/8] :
-    Maille=s.simulate(P_las,Nz*fact,Nr*fact,Nt,Lr,Lz,duration)
+#for fact in [1, 1/2, 1/4, 1/8] :
+#    Maille=s.simulate(P_las,Nz*fact,Nr*fact,Nt,Lr,Lz,duration)
 
 
 
@@ -41,9 +41,9 @@ tinv_ar=[]
 mem_ar=np.zeros(0)
 Tm_ar=[]
 
+Maille=s.simulate(P_las,deltaz,deltar,deltat,Lr,Lz,duration)
 
-
-
+clochard=Maille[:,10,15]
 
 Tcurie=310
 rayonbit=dr*np.sum(Maille[:,10,:]>Tcurie,axis=0)

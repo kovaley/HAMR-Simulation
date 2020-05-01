@@ -39,7 +39,7 @@ def simulate(P_las,deltaz,deltar,deltat,Lr,Lz,duration):
     Nt=int(np.round(duration/deltat))
     "Positions"
     r_pos = deltar*np.arange(Nr+1)
-    z_pos = deltat*np.arange(Nz+1)
+    z_pos = deltaz*np.arange(Nz+1)
     "Vecteur pas"
     dr_vec = deltar*np.ones(Nr)
     dz_vec = deltaz*np.ones(Nz)
@@ -66,7 +66,7 @@ def simulate(P_las,deltaz,deltar,deltat,Lr,Lz,duration):
     startime = time.time()
     "Iteration temporelle / Calcul de la solution"
     for t in range(0,Nt-1)    :
-        source[:,:,t]=1e-3*deltat*TS.SourceCreation(r_pos, z_pos, Nr,
+        source[:,:,t]=deltat*TS.SourceCreation(r_pos, z_pos, Nr,
                                                 Nz, t*deltat, P_las)/pC
         
         Maille[:,:,t+1]=euImp.solve(Maille[:,:,t],A,B,C,source[:,:,t])
@@ -75,6 +75,7 @@ def simulate(P_las,deltaz,deltar,deltat,Lr,Lz,duration):
     print("Computation of solution done in {:.2f} seconds".format(execution_time))
     
     return Maille
+#    return Maille,source
     
 
 
