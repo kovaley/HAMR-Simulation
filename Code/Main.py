@@ -11,7 +11,7 @@ import winsound
 "constants"
 #Tcurie=1394 #K
 Tcurie=400 #K
-sampling_depth=9 #cellules
+sampling_depth=200 #cellules
 
 "Dimensions"
 Lr=500e-9
@@ -56,7 +56,7 @@ if boucle==0 :
         t_exec.append(execution_time)               #temps d'exécution
         x.append(deltat*fact*10**9)              #Pas de temps
         memory_usage.append(memory_use)             #utilisation de la mémoire
-        rayon_max.append(np.amax(deltar*np.sum(simulation[sampling_depth,:,:]>Tcurie,axis=0))) #rayon maximal
+        rayon_max.append(10**9*np.amax(deltar*np.sum(simulation[sampling_depth,:,:]>Tcurie,axis=0))) #rayon maximal
     xlabel1='pas de temps (ns)'
     plottitle1='temps d''exécution en fonction du pas de temps'
     plottitle2='mémoire utilisée en fonction du pas de temps'
