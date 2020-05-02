@@ -86,7 +86,7 @@ if boucle==1 :
         t_exec.append(execution_time)               #temps d'exécution
         x.append(deltar*fact*10**9)                 #Pas spatial
         memory_usage.append(memory_use)             #utilisation de la mémoire
-        rayon_max.append(10**9*np.amax(deltar*np.sum(simulation[sampling_depth,:,:]>Tcurie,axis=0))) #rayon maximal
+        rayon_max.append(10**9*np.amax(deltar*np.sum(simulation[sampling_depth/fact,:,:]>Tcurie,axis=0))) #rayon maximal
 
 
     "Étiquettes des graphiques"           
@@ -164,7 +164,7 @@ plot.title(plottitle3)
 
 "Tracage de l'erreur"
 figure4=plot.figure()
-plot.plot(x[1:-1],rayon_max[1:-1]-rayon_max[0:-2])
+plot.plot(x[1:],list(np.array(rayon_max[1:]) - np.array(rayon_max[0:-1])))#not the fastest way, but it's working
 plot.xlabel(xlabel1)
 plot.ylabel('erreur sur le rayon (nm)')
 plot.title(plottitle4)
