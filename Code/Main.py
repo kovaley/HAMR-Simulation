@@ -33,12 +33,17 @@ P_las=1e-3   #W
 resultats=[]
 rayonbit=[]
 t_exec = []
+t= []
 x = []
 memory_usage = []
 rayon_max = []
 
+"active le tracage des profils de rayon de bits"
+rayonbit_enable=0
+#0=disabled
+#1=enabled
 "choix de la boucle à exécuter"
-boucle=0;
+boucle=1;
 #0=pas de temps
 #1=spatiale
 #2=puissance laser
@@ -51,9 +56,10 @@ boucle=0;
 if boucle==0 :
     for fact in [1, 1/2, 1/4, 1/8] :
         simulation, execution_time, memory_use=simulate.simulate(P_las,deltaz,deltar,deltat*fact,Lr,Lz,duration)
-        rayonbit.append(deltar*np.sum(simulation[sampling_depth,:,:]>Tcurie,axis=0))
+        rayonbit.append(deltar*10**9*np.sum(simulation[sampling_depth,:,:]>Tcurie,axis=0))
         resultats.append(simulation)                #simulation   
         t_exec.append(execution_time)               #temps d'exécution
+        t.append(fact*deltat*np.arange(0,int(np.round(duration/(deltat*fact))))*10**9)
         x.append(deltat*fact*10**9)              #Pas de temps
         memory_usage.append(memory_use)             #utilisation de la mémoire
         rayon_max.append(10**9*np.amax(deltar*np.sum(simulation[sampling_depth,:,:]>Tcurie,axis=0))) #rayon maximal
@@ -70,12 +76,14 @@ if boucle==0 :
 if boucle==1 :
     for fact in [1, 1/2, 1/4, 1/8] :
         simulation, execution_time, memory_use=simulate.simulate(P_las,deltaz*fact,deltar*fact,deltat,Lr,Lz,duration)   
-        rayonbit.append(deltar*np.sum(simulation[sampling_depth,:,:]>Tcurie,axis=0))
+        rayonbit.append(deltar*10**9*np.sum(simulation[sampling_depth,:,:]>Tcurie,axis=0))  
         resultats.append(simulation)                #simulation   
         t_exec.append(execution_time)               #temps d'exécution
-        x.append(deltar*fact*10**9)              #Pas de temps
+        t.append(deltat*np.arange(0,Nt)*10**9)
+        x.append(deltar*fact*10**9)              #Pas spatial
         memory_usage.append(memory_use)             #utilisation de la mémoire
         rayon_max.append(np.amax(deltar*np.sum(simulation[sampling_depth,:,:]>Tcurie,axis=0))) #rayon maximal
+        
     xlabel1='pas spatial (nm)'
     plottitle1='temps d''exécution en fonction du pas spatial'
     plottitle2='mémoire utilisée en fonction du pas spatial'  
@@ -89,11 +97,12 @@ if boucle==1 :
 "Boucle puissance du laser"
 if boucle==2 :
     for fact in [1, 1e2, 1e3, 1e4]:
-        simulation, execution_time, memory_use=simulate.simulate(P_las*fact,deltaz,deltar,deltat*fact,Lr,Lz,duration)
-        rayonbit.append(deltar*np.sum(simulation[sampling_depth,:,:]>Tcurie,axis=0))
+        simulation, execution_time, memory_use=simulate.simulate(P_las*fact,deltaz,deltar,deltat,Lr,Lz,duration)
+        rayonbit.append(deltar*10**9*np.sum(simulation[sampling_depth,:,:]>Tcurie,axis=0))
         resultats.append(simulation)                #simulation   
         t_exec.append(execution_time)               #temps d'exécution
-        x.append(deltat*fact)              #Pas de temps
+        t.append(deltat*np.arange(0,Nt)*10**9)
+        x.append(P_las*fact)              #Pas de temps
         memory_usage.append(memory_use)             #utilisation de la mémoire
         rayon_max.append(np.amax(deltar*np.sum(simulation[sampling_depth,:,:]>Tcurie,axis=0))) #rayon maximal
     xlabel1='Puissance du laser (mW)'
@@ -144,6 +153,27 @@ plot.plot(x,rayon_max)
 plot.xlabel(xlabel1)
 plot.ylabel('rayon maximum du bit (nm)')
 plot.title(plottitle3)
+
+
+"Tracage des profils de rayon de bit"
+if rayonbit_enable==1:
+    figure4, axs = plot.subplots(2,2)
+    axs[0, 0].plot(t[0],rayonbit[0])
+    axs[0, 0].set_title('dt1')
+    axs[0, 1].plot(t[1],rayonbit[1])
+    axs[0, 1].set_title('dt2')
+    axs[1, 0].plot(t[2],rayonbit[2])
+    axs[1, 0].set_title('dt3')
+    axs[1, 1].plot(t[3],rayonbit[3])
+    axs[1, 1].set_title('dt4')
+    for ax in axs.flat:
+        ax.set(xlabel='temps', ylabel='rayon du bit')     
+
+
+
+
+
+
 
 # plot.plot(deltat*np.arange(0,Nt)*10**9,rayonbit[0]*10**9)
 # plot.xlabel('temps [ns]')

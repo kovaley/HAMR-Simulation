@@ -6,23 +6,20 @@ Created on Wed Apr  8 12:02:34 2020
 """
 
 import numpy as np
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plot
 import matplotlib.animation as animation
 
+x = np.linspace(0, 2 * np.pi, 400)
+y = np.sin(x ** 2)
 
-
-fig2 = plt.figure()
-
-x = np.arange(-9, 10)
-y = np.arange(-9, 10).reshape(-1, 1)
-base = np.hypot(x, y)
-ims = []
-for add in np.arange(15):
-    ims.append((plt.pcolor(x, y, base + add, norm=plt.Normalize(0, 30)),))
-
-im_ani = animation.ArtistAnimation(fig2, ims, interval=50, repeat_delay=3000,
-                                   blit=True)
-# To save this second animation with some metadata, use the following command:
-# im_ani.save('im.mp4', metadata={'artist':'Guido'})
-
-plt.show()
+figure4, axs = plot.subplots(2,2)
+axs[0, 0].plot(t[1],rayonbit[1])
+axs[0, 0].set_title('Axis [0,0]')
+axs[0, 1].plot(t[1],rayonbit[1])
+axs[0, 1].set_title('Axis [0,1]')
+axs[1, 0].plot(t[2],rayonbit[2])
+axs[1, 0].set_title('Axis [1,0]')
+axs[1, 1].plot(t[3],rayonbit[3])
+axs[1, 1].set_title('Axis [1,1]')
+for ax in axs.flat:
+    ax.set(xlabel='temps', ylabel='rayon du bit')          
