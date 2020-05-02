@@ -1,18 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import euler_Implicite as euImp
 import numpy as np
 import ploting as plt
-import time
-import Terme_Source as TS
 import nu_grid as nu_grid
 import simulate as simulate
 import matplotlib.pyplot as plot
 #just want to hear when execution is done
 import winsound
 "constants"
-Tcurie=1394 #K
+#Tcurie=1394 #K
+Tcurie=400 #K
 sampling_depth=9 #cellules
 
 "Dimensions"
@@ -31,13 +29,13 @@ Nz=int(np.round(Lz/deltaz))
 Nt=int(np.round(duration/deltat))
 
 
-P_las=1**np.arange(1)*1e-3   #W  
+P_las=1e-3   #W  
 resultats=[]
 rayonbit=[]
 t_exec = []
-pasdetemps = []
+x = []
 memory_usage = []
-
+rayon_max = []
 
 "choix de la boucle à exécuter"
 boucle=0;
@@ -48,61 +46,60 @@ boucle=0;
 
 
 
+
 "boucle pas de temps"
 if boucle==0 :
     for fact in [1, 1/2, 1/4, 1/8] :
-        simulation, execution_time, memory_use=simulate.simulate(P_las[0],deltaz,deltar,deltat*fact,Lr,Lz,duration)
+        simulation, execution_time, memory_use=simulate.simulate(P_las,deltaz,deltar,deltat*fact,Lr,Lz,duration)
+        rayonbit.append(deltar*np.sum(simulation[sampling_depth,:,:]>Tcurie,axis=0))
         resultats.append(simulation)                #simulation   
         t_exec.append(execution_time)               #temps d'exécution
-        pasdetemps.append(deltat*fact)              #Pas de temps
+        x.append(deltat*fact*10**9)              #Pas de temps
         memory_usage.append(memory_use)             #utilisation de la mémoire
-        
-        
-        
-    "Animation du résultat au pas de temps minimum"   
-    im_ani1 = plt.animate(resultats[3])
-
-
-    
-    "tracage du temps d''exécution en fonction du pas de temps"
-    figure1=plot.figure()
-    plot.plot(pasdetemps,t_exec)
-    plot.xlabel('pas de temps (ns)')
-    plot.ylabel('temps d''exéxution (s)')
-    plot.title('temps d''exécution en fonction du pas de temps')
+        rayon_max.append(np.amax(deltar*np.sum(simulation[sampling_depth,:,:]>Tcurie,axis=0))) #rayon maximal
+    xlabel1='pas de temps (ns)'
+    plottitle1='temps d''exécution en fonction du pas de temps'
+    plottitle2='mémoire utilisée en fonction du pas de temps'
+    plottitle3='rayon maximum en fonction du pas de temps'        
     
     
-    "tracage du temps d''exécution en fonction du pas de temps"
-    figure2=plot.figure()
-    plot.plot(pasdetemps,memory_usage)
-    plot.xlabel('pas de temps (ns)')
-    plot.ylabel('utilisation de la mémoire (octets)')
-    plot.title('Utilisation de la mémoire en fonction du pas de temps')
     
     
     
 "Boucle pas spatiaux"
 if boucle==1 :
     for fact in [1, 1/2, 1/4, 1/8] :
-        
-        resultats.append(simulate.simulate(P_las[0],deltaz*fact,deltar*fact,deltat,Lr,Lz,duration))   
-
-
-
-
-
-
+        simulation, execution_time, memory_use=simulate.simulate(P_las,deltaz*fact,deltar*fact,deltat,Lr,Lz,duration)   
+        rayonbit.append(deltar*np.sum(simulation[sampling_depth,:,:]>Tcurie,axis=0))
+        resultats.append(simulation)                #simulation   
+        t_exec.append(execution_time)               #temps d'exécution
+        x.append(deltar*fact*10**9)              #Pas de temps
+        memory_usage.append(memory_use)             #utilisation de la mémoire
+        rayon_max.append(np.amax(deltar*np.sum(simulation[sampling_depth,:,:]>Tcurie,axis=0))) #rayon maximal
+    xlabel1='pas spatial (nm)'
+    plottitle1='temps d''exécution en fonction du pas spatial'
+    plottitle2='mémoire utilisée en fonction du pas spatial'  
+    plottitle3='rayon maximum en fonction du pas spatial'
+    
+    
+    
+    
+    
 
 "Boucle puissance du laser"
 if boucle==2 :
-    for n in range(0,len(P_las)):
-        resultats.append(simulate.simulate(P_las[n],deltaz,deltar,deltat,Lr,Lz,duration))
-        rayonbit.append(deltar*np.sum(resultats[n][sampling_depth,:,:]>Tcurie,axis=0))
-        
-
-
-
-
+    for fact in [1, 1e2, 1e3, 1e4]:
+        simulation, execution_time, memory_use=simulate.simulate(P_las*fact,deltaz,deltar,deltat*fact,Lr,Lz,duration)
+        rayonbit.append(deltar*np.sum(simulation[sampling_depth,:,:]>Tcurie,axis=0))
+        resultats.append(simulation)                #simulation   
+        t_exec.append(execution_time)               #temps d'exécution
+        x.append(deltat*fact)              #Pas de temps
+        memory_usage.append(memory_use)             #utilisation de la mémoire
+        rayon_max.append(np.amax(deltar*np.sum(simulation[sampling_depth,:,:]>Tcurie,axis=0))) #rayon maximal
+    xlabel1='Puissance du laser (mW)'
+    plottitle1='Temps d''exécution en fonction de la puissance du laser'
+    plottitle2='Mémoire utilisée en fonction de la puissance du laser'
+    plottitle3='rayon maximum en fonction de la puissance du laser'
 
 
 
@@ -119,6 +116,34 @@ if boucle==3 :
         
         
 "Plotting et animation"
+
+"Animation du résultat dernier"   
+im_ani1 = plt.animate(resultats[3])
+
+
+
+"tracage du temps d''exécution"
+figure1=plot.figure()
+plot.plot(x,t_exec)
+plot.xlabel(xlabel1)
+plot.ylabel('temps d''exéxution (s)')
+plot.title(plottitle1)
+
+
+"tracage de l'utilation de la mémoire"
+figure2=plot.figure()
+plot.plot(x,memory_usage)
+plot.xlabel(xlabel1)
+plot.ylabel('utilisation de la mémoire (octets)')
+plot.title(plottitle2)
+
+
+"tracage du rayon maximum"
+figure3=plot.figure()
+plot.plot(x,rayon_max)
+plot.xlabel(xlabel1)
+plot.ylabel('rayon maximum du bit (nm)')
+plot.title(plottitle3)
 
 # plot.plot(deltat*np.arange(0,Nt)*10**9,rayonbit[0]*10**9)
 # plot.xlabel('temps [ns]')
