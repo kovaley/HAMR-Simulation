@@ -20,15 +20,15 @@ duration=20e-9 #s
 
 "Pas"
 deltat=0.1e-9;
-deltar=2.5e-9;
-deltaz=2.5e-9;
+deltar=4e-9;
+deltaz=4e-9;
 
 "Nombre de celulles"
 Nr=int(np.round(Lr/deltar))
 Nz=int(np.round(Lz/deltaz))
 Nt=int(np.round(duration/deltat))
 
-sampling_depth=int(200e-9/Lz*Nz) #nm
+sampling_depth=int(20e-9/Lz*Nz) #nm
 
 
 P_las=1e-3   #W  
@@ -130,7 +130,7 @@ if boucle==3 :
     # im_ani1 = plt.animate(resultats[0])
         
     "tracage du rayon selon t"
-    # figure2=plot.figure()
+    figure2=plot.figure()
     plot.plot(t[0],rayonbit[0])
     plot.xlabel('temps (ns)')
     plot.ylabel('rayon du bit (nm)')

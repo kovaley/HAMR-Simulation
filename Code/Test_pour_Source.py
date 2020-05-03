@@ -12,13 +12,13 @@ import ploting as ploting
 import matplotlib.pyplot as plt
 
 P_las = 1e-3 #W
-pC = 7800*432
+pC = 8900*432
 Nr = 500 
 Nz = 500
-r_pos = 1e-9*np.arange(Nr) #m
-z_pos = 1e-9*np.arange(Nz) #m
+r_pos = 5e-9*np.arange(Nr) #m
+z_pos = 5e-9*np.arange(Nz) #m
 dt = 0.2e-9 #s
-duree = 20e-9 #s
+duree = 2e-9 #s
 Nt = int(np.round(duree/dt))
 print(Nt)
 
