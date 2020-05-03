@@ -18,7 +18,7 @@ Nz = 500
 r_pos = 1e-9*np.arange(Nr) #m
 z_pos = 1e-9*np.arange(Nz) #m
 dt = 0.2e-9 #s
-duree = 2e-9 #s
+duree = 20e-9 #s
 Nt = int(np.round(duree/dt))
 print(Nt)
 

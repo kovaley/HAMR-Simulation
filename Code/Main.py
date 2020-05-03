@@ -19,9 +19,9 @@ Lz=500e-9   #m
 duration=20e-9 #s
 
 "Pas"
-deltat=0.2e-9;
-deltar=5e-9;
-deltaz=5e-9;
+deltat=0.1e-9;
+deltar=2.5e-9;
+deltaz=2.5e-9;
 
 "Nombre de celulles"
 Nr=int(np.round(Lr/deltar))
@@ -127,11 +127,11 @@ if boucle==3 :
     rayonbit.append(deltar*10**9*np.sum(simulation[sampling_depth,:,:]>Tcurie,axis=0))#rayon du bit en fonction du temps
     t.append(deltat*np.arange(0,Nt)*10**9)      #abscisse rayon du bit 
     resultats.append(simulation)                #simulation   
-    im_ani1 = plt.animate(resultats[0])
+    # im_ani1 = plt.animate(resultats[0])
         
     "tracage du rayon selon t"
-    figure2=plot.figure()
-    plot.plot(t,rayonbit)
+    # figure2=plot.figure()
+    plot.plot(t[0],rayonbit[0])
     plot.xlabel('temps (ns)')
     plot.ylabel('rayon du bit (nm)')
     plot.title('rayon selon t')
