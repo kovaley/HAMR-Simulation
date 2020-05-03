@@ -14,14 +14,14 @@ Tcurie=400 #K
 
 
 "Dimensions"
-Lr=500e-9
-Lz=500e-9
-duration=1e-9
+Lr=500e-9   #m
+Lz=500e-9   #m
+duration=20e-9 #s
 
 "Pas"
 deltat=0.2e-9;
-deltar=1e-9;
-deltaz=1e-9;
+deltar=5e-9;
+deltaz=5e-9;
 
 "Nombre de celulles"
 Nr=int(np.round(Lr/deltar))
@@ -123,17 +123,16 @@ if boucle==2 :
 
 "Boucle de test de la source"
 if boucle==3 :
-    for n in range(0,len(P_las)):
-        simulation, execution_time, memory_use=simulate.simulate(P_las,deltaz,deltar,deltat,Lr,Lz,duration)
-        # rayonbit.append(deltar*10**9*np.sum(simulation[sampling_depth,:,:]>Tcurie,axis=0))#rayon du bit en fonction du temps
-        # t.append(deltat*np.arange(0,Nt)*10**9)      #abscisse rayon du bit 
-        resultats.append(simulation)                #simulation   
-        im_ani1 = plt.animate(resultats[0])
+    simulation, execution_time, memory_use=simulate.simulate(P_las,deltaz,deltar,deltat,Lr,Lz,duration)
+    # rayonbit.append(deltar*10**9*np.sum(simulation[sampling_depth,:,:]>Tcurie,axis=0))#rayon du bit en fonction du temps
+    # t.append(deltat*np.arange(0,Nt)*10**9)      #abscisse rayon du bit 
+    resultats.append(simulation)                #simulation   
+    im_ani1 = plt.animate(resultats[0])
         
         
         
         
-if test_enable == 1:       
+if test_enable == 0:       
     "Plotting et animation"
 
     "Animation du résultat dernier"   
