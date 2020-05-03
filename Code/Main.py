@@ -124,12 +124,17 @@ if boucle==2 :
 "Boucle de test de la source"
 if boucle==3 :
     simulation, execution_time, memory_use=simulate.simulate(P_las,deltaz,deltar,deltat,Lr,Lz,duration)
-    # rayonbit.append(deltar*10**9*np.sum(simulation[sampling_depth,:,:]>Tcurie,axis=0))#rayon du bit en fonction du temps
-    # t.append(deltat*np.arange(0,Nt)*10**9)      #abscisse rayon du bit 
+    rayonbit.append(deltar*10**9*np.sum(simulation[sampling_depth,:,:]>Tcurie,axis=0))#rayon du bit en fonction du temps
+    t.append(deltat*np.arange(0,Nt)*10**9)      #abscisse rayon du bit 
     resultats.append(simulation)                #simulation   
     im_ani1 = plt.animate(resultats[0])
         
-        
+    "tracage du rayon selon t"
+    figure2=plot.figure()
+    plot.plot(t,rayonbit)
+    plot.xlabel('temps (ns)')
+    plot.ylabel('rayon du bit (nm)')
+    plot.title('rayon selon t')
         
         
 if test_enable == 0:       
