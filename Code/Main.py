@@ -45,13 +45,13 @@ rayonbit_enable=0
 #0=disabled
 #1=enabled
 "choix de la boucle à exécuter"
-boucle=0;
+boucle=3;
 #0=pas de temps
 #1=spatiale
 #2=puissance laser
 #2=test de la source
 
-
+test_enable = 1 
 
 
 "boucle pas de temps"
@@ -124,64 +124,66 @@ if boucle==2 :
 "Boucle de test de la source"
 if boucle==3 :
     for n in range(0,len(P_las)):
-        resultats.append(simulate.simulate(P_las[n],deltaz,deltar,deltat,Lr,Lz,duration))
-        rayonbit.append(deltar*np.sum(resultats[n][sampling_depth,:,:]>Tcurie,axis=0))
+        simulation, execution_time, memory_use=simulate.simulate(P_las,deltaz,deltar,deltat,Lr,Lz,duration)
+        # rayonbit.append(deltar*10**9*np.sum(simulation[sampling_depth,:,:]>Tcurie,axis=0))#rayon du bit en fonction du temps
+        # t.append(deltat*np.arange(0,Nt)*10**9)      #abscisse rayon du bit 
+        resultats.append(simulation)                #simulation   
+        im_ani1 = plt.animate(resultats[0])
         
         
         
         
-        
-        
-"Plotting et animation"
+if test_enable == 1:       
+    "Plotting et animation"
 
-"Animation du résultat dernier"   
-im_ani1 = plt.animate(resultats[3])
-
-
-
-"tracage du temps d''exécution"
-figure1=plot.figure()
-plot.plot(x,t_exec)
-plot.xlabel(xlabel1)
-plot.ylabel('temps d''exéxution (s)')
-plot.title(plottitle1)
-
-
-"tracage de l'utilation de la mémoire"
-figure2=plot.figure()
-plot.plot(x,memory_usage)
-plot.xlabel(xlabel1)
-plot.ylabel('utilisation de la mémoire (octets)')
-plot.title(plottitle2)
-
-
-"tracage du rayon maximum"
-figure3=plot.figure()
-plot.plot(x,rayon_max)
-plot.xlabel(xlabel1)
-plot.ylabel('rayon maximum du bit (nm)')
-plot.title(plottitle3)
-
-"Tracage de l'erreur"
-figure4=plot.figure()
-plot.plot(x[1:],list(np.array(rayon_max[1:]) - np.array(rayon_max[0:-1])))#not the fastest way, but it's working
-plot.xlabel(xlabel1)
-plot.ylabel('erreur sur le rayon (nm)')
-plot.title(plottitle4)
-
-"Tracage des profils de rayon de bit"
-if rayonbit_enable==1:
-    figure5, axs = plot.subplots(2,2)
-    axs[0, 0].plot(t[0],rayonbit[0])
-    axs[0, 0].set_title('dt1')
-    axs[0, 1].plot(t[1],rayonbit[1])
-    axs[0, 1].set_title('dt2')
-    axs[1, 0].plot(t[2],rayonbit[2])
-    axs[1, 0].set_title('dt3')
-    axs[1, 1].plot(t[3],rayonbit[3])
-    axs[1, 1].set_title('dt4')
-    for ax in axs.flat:
-        ax.set(xlabel='temps', ylabel='rayon du bit')     
+    "Animation du résultat dernier"   
+    im_ani1 = plt.animate(resultats[0])
+    
+    
+    
+    "tracage du temps d''exécution"
+    figure1=plot.figure()
+    plot.plot(x,t_exec)
+    plot.xlabel(xlabel1)
+    plot.ylabel('temps d''exéxution (s)')
+    plot.title(plottitle1)
+    
+    
+    "tracage de l'utilation de la mémoire"
+    figure2=plot.figure()
+    plot.plot(x,memory_usage)
+    plot.xlabel(xlabel1)
+    plot.ylabel('utilisation de la mémoire (octets)')
+    plot.title(plottitle2)
+    
+    
+    "tracage du rayon maximum"
+    figure3=plot.figure()
+    plot.plot(x,rayon_max)
+    plot.xlabel(xlabel1)
+    plot.ylabel('rayon maximum du bit (nm)')
+    plot.title(plottitle3)
+    
+    "Tracage de l'erreur"
+    figure4=plot.figure()
+    plot.plot(x[1:],list(np.array(rayon_max[1:]) - np.array(rayon_max[0:-1])))#not the fastest way, but it's working
+    plot.xlabel(xlabel1)
+    plot.ylabel('erreur sur le rayon (nm)')
+    plot.title(plottitle4)
+    
+    "Tracage des profils de rayon de bit"
+    if rayonbit_enable==1:
+        figure5, axs = plot.subplots(2,2)
+        axs[0, 0].plot(t[0],rayonbit[0])
+        axs[0, 0].set_title('dt1')
+        axs[0, 1].plot(t[1],rayonbit[1])
+        axs[0, 1].set_title('dt2')
+        axs[1, 0].plot(t[2],rayonbit[2])
+        axs[1, 0].set_title('dt3')
+        axs[1, 1].plot(t[3],rayonbit[3])
+        axs[1, 1].set_title('dt4')
+        for ax in axs.flat:
+            ax.set(xlabel='temps', ylabel='rayon du bit')     
 
 
 
