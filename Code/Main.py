@@ -19,9 +19,9 @@ Lz=500e-9   #m
 duration=20e-9 #s
 
 "Pas"
-deltat=0.1e-9;
-deltar=4e-9;
-deltaz=4e-9;
+deltat=0.5e-9;
+deltar=10e-9;
+deltaz=10e-9;
 
 "Nombre de celulles"
 Nr=int(np.round(Lr/deltar))
@@ -39,6 +39,7 @@ t= []
 x = []
 memory_usage = []
 rayon_max = []
+temp200nm = []
 
 "active le tracage des profils de rayon de bits"
 rayonbit_enable=0
@@ -56,7 +57,7 @@ test_enable = 0
 
 "boucle pas de temps"
 if boucle==0 :
-    for fact in [1, 1/2, 1/4, 1/8] :
+    for fact in [1, 1/2, 1/4, 1/8,1/16, 1/32] :
         simulation, execution_time, memory_use=simulate.simulate(P_las,deltaz,deltar,deltat*fact,Lr,Lz,duration)
         rayonbit.append(deltar*10**9*np.sum(simulation[sampling_depth,:,:]>Tcurie,axis=0))#rayon du bit en fonction du temps
         t.append(fact*deltat*np.arange(0,int(np.round(duration/(deltat*fact))))*10**9)#abscisse rayon du bit
@@ -65,6 +66,8 @@ if boucle==0 :
         x.append(deltat*fact*10**9)              #Pas de temps
         memory_usage.append(memory_use)             #utilisation de la mémoire
         rayon_max.append(10**9*np.amax(deltar*np.sum(simulation[sampling_depth,:,:]>Tcurie,axis=0))) #rayon maximal
+        temp200nm.append(simulation[int(200e-9/Lr*Nr),int(200e-9/Lz*Nz),int(10e-9/deltat/fact)])
+
 
     "Étiquettes des graphiques"   
     xlabel1='pas de temps (ns)'
@@ -78,7 +81,7 @@ if boucle==0 :
     
 "Boucle pas spatiaux"
 if boucle==1 :
-    for fact in [1, 1/2, 1/4, 1/8] :
+    for fact in [1, 1/2, 1/4, 1/8, 1/16] :
         simulation, execution_time, memory_use=simulate.simulate(P_las,deltaz*fact,deltar*fact,deltat,Lr,Lz,duration)
         rayonbit.append(deltar*10**9*np.sum(simulation[int(sampling_depth/fact),:,:]>Tcurie,axis=0))#rayon du bit en fonction du temps  
         t.append(deltat*np.arange(0,Nt)*10**9)      #abscisse rayon du bit        
@@ -87,7 +90,7 @@ if boucle==1 :
         x.append(deltar*fact*10**9)                 #Pas spatial
         memory_usage.append(memory_use)             #utilisation de la mémoire
         rayon_max.append(10**9*np.amax(deltar*np.sum(simulation[int(sampling_depth/fact),:,:]>Tcurie,axis=0))) #rayon maximal
-
+        temp200nm.append(simulation[int(100e-9/deltar/fact),int(100e-9/deltaz/fact),20])
 
     "Étiquettes des graphiques"           
     xlabel1='pas spatial (nm)'
@@ -173,10 +176,11 @@ if test_enable == 0:
     
     "Tracage de l'erreur"
     figure4=plot.figure()
-    plot.plot(x[1:],list(np.array(rayon_max[1:]) - np.array(rayon_max[0:-1])))#not the fastest way, but it's working
+    plot.loglog(x[1:],list(np.array(temp200nm[1:]) - np.array(temp200nm[0:-1])),'o')#not the fastest way, but it's working
+    plot.loglog(x[1:],list(np.array(temp200nm[1:]) - np.array(temp200nm[0:-1])),'-')#not the fastest way, but it's working
     plot.xlabel(xlabel1)
-    plot.ylabel('erreur sur le rayon (nm)')
-    plot.title(plottitle4)
+    plot.ylabel('erreur sur la température')
+#    plot.title(plottitle4)
     
     "Tracage des profils de rayon de bit"
     if rayonbit_enable==1:

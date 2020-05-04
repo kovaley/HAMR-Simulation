@@ -11,13 +11,8 @@ import matplotlib.animation as animation
 
 
 
-temps_exec=np.log(np.array(t_exec))
-x1=np.log(np.array(x))
-m,b = np.polyfit(x1, temps_exec, 1)
-print(m)
-print(b)
-
-memory_usage1=np.log(np.array(memory_usage))
-m,b = np.polyfit(x1, memory_usage1, 1)
+erreur=np.log(list(np.array(temp200nm[1:]) - np.array(temp200nm[0:-1])))
+x1=np.log(np.array(x[1:]))
+m,b = np.polyfit(x1, erreur, 1)
 print(m)
 print(b)
