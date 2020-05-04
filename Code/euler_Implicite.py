@@ -22,7 +22,7 @@ def solve(T1,A,B,C,source):
     return T.reshape(T1.shape)
 
 "Heatbath sur deux frontieres, convection et axe de simetrie"
-def buildMatrix(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz,pC,h,Tp):
+def buildMatrix(Nr,Nz,alpha_z,alpha_r,deltar,deltat,deltaz,pC,h,Tp):
     N=Nr*Nz;
 
     "B*T(n+1)=C*T+D"
@@ -37,9 +37,9 @@ def buildMatrix(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz,pC,h,Tp):
         for j in range(0,Nz): 
             
             "Coefficients, dependant du maillage non uniforme"
-            b = alpha_perp*deltat/(deltar[i]**2)
-            c = alpha_para*deltat/(deltaz[j]**2)
-            a = 1+2*b+2*c
+            b = deltat*deltaz[j]**2/alpha_z
+            c = deltat*deltar[i]**2/alpha_r
+            a = deltar[i]**2*deltaz[j]**2/(alpha_r*alpha_z)+2*b+2*c
             
             pl=i+j*Nr
             "T=Tp"
@@ -55,14 +55,14 @@ def buildMatrix(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz,pC,h,Tp):
                 
                 'indexe de colonne pour la matrice B'
                 pc=pl;
-                B[pl,pc]=-(3+2*h*deltaz[j]/(alpha_para*pC));
+                B[pl,pc]=-(3+2*h*deltaz[j]/(alpha_r*pC));
                 pc=i+(j+1)*Nr;
                 B[pl,pc]=4;
                 pc=i+(j+2)*Nr;
                 B[pl,pc]=-1;
                 
 
-                D[pl,0]=-2*deltaz[j]*h*Tp/(alpha_para*pC);
+                D[pl,0]=-2*deltaz[j]*h*Tp/(alpha_r*pC);
             
             elif (i==0) :
                 pc=pl;
@@ -91,7 +91,7 @@ def buildMatrix(Nr,Nz,alpha_para,alpha_perp,deltar,deltat,deltaz,pC,h,Tp):
                 'indexe de colonne pour la matrice C'
                 'termes en i'
                 pc=pl;
-                C[pl,pc]=1;
+                C[pl,pc]=deltar[i]**2*deltaz[j]**2/(alpha_r*alpha_z);
 
             else : 
                 print("missing matrix coefficient")
