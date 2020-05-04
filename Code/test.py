@@ -9,6 +9,15 @@ import numpy as np
 import matplotlib.pyplot as plot
 import matplotlib.animation as animation
 
-print(rayon_max[1:])
-print(rayon_max[0:-1])
-print(list(np.array(rayon_max[1:]) - np.array(rayon_max[0:-1])))
+
+
+temps_exec=np.log(np.array(t_exec))
+x1=np.log(np.array(x))
+m,b = np.polyfit(x1, temps_exec, 1)
+print(m)
+print(b)
+
+memory_usage1=np.log(np.array(memory_usage))
+m,b = np.polyfit(x1, memory_usage1, 1)
+print(m)
+print(b)

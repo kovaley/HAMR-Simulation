@@ -45,13 +45,13 @@ rayonbit_enable=0
 #0=disabled
 #1=enabled
 "choix de la boucle à exécuter"
-boucle=3;
+boucle=1;
 #0=pas de temps
 #1=spatiale
 #2=puissance laser
 #2=test de la source
 
-test_enable = 1 
+test_enable = 0 
 
 
 "boucle pas de temps"
@@ -86,7 +86,7 @@ if boucle==1 :
         t_exec.append(execution_time)               #temps d'exécution
         x.append(deltar*fact*10**9)                 #Pas spatial
         memory_usage.append(memory_use)             #utilisation de la mémoire
-        rayon_max.append(10**9*np.amax(deltar*np.sum(simulation[sampling_depth/fact,:,:]>Tcurie,axis=0))) #rayon maximal
+        rayon_max.append(10**9*np.amax(deltar*np.sum(simulation[int(sampling_depth/fact),:,:]>Tcurie,axis=0))) #rayon maximal
 
 
     "Étiquettes des graphiques"           
@@ -147,7 +147,9 @@ if test_enable == 0:
     
     "tracage du temps d''exécution"
     figure1=plot.figure()
-    plot.plot(x,t_exec)
+    plot.loglog(x,t_exec,'o')
+    plot.loglog(x,t_exec,'-')
+    plot.loglog(x,t_exec)
     plot.xlabel(xlabel1)
     plot.ylabel('temps d''exéxution (s)')
     plot.title(plottitle1)
@@ -155,9 +157,10 @@ if test_enable == 0:
     
     "tracage de l'utilation de la mémoire"
     figure2=plot.figure()
-    plot.plot(x,memory_usage)
+    plot.loglog(x,memory_usage,'o')
+    plot.loglog(x,memory_usage,'-')
     plot.xlabel(xlabel1)
-    plot.ylabel('utilisation de la mémoire (octets)')
+    plot.ylabel('utilisation de la mémoire (Mo)')
     plot.title(plottitle2)
     
     
@@ -194,15 +197,6 @@ if test_enable == 0:
 
 
 
-
-# plot.plot(deltat*np.arange(0,Nt)*10**9,rayonbit[0]*10**9)
-# plot.xlabel('temps [ns]')
-# plot.ylabel('rayon d''un bit [nm]')
-# plot.title('Rayon d''un bit selon le temps d''une impulsion')
-
-#im_ani1 = plt.animate(resultats[0])
-#im_ani2 = plt.animate(resultats[1])
-# plt.animate(source,Nt)
 
 
 print("Plotting Done")   

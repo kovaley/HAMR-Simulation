@@ -72,7 +72,7 @@ def simulate(P_las,deltaz,deltar,deltat,Lr,Lz,duration):
         Maille[:,:,t+1]=euImp.solve(Maille[:,:,t],A,B,C,source[:,:])
         
     execution_time = time.time()-startime
-    memory_use = Maille.size*Maille.itemsize
+    memory_use = Maille.size*Maille.itemsize/1000/1000
     print("Computation of solution done in {:.2f} seconds".format(execution_time))
     
     return Maille, execution_time, memory_use
