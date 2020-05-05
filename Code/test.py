@@ -11,18 +11,18 @@ import matplotlib.animation as animation
 
 
 
-fig2 = plt.figure()
 
-x = np.arange(-9, 10)
-y = np.arange(-9, 10).reshape(-1, 1)
-base = np.hypot(x, y)
-ims = []
-for add in np.arange(15):
-    ims.append((plt.pcolor(x, y, base + add, norm=plt.Normalize(0, 30)),))
-
-im_ani = animation.ArtistAnimation(fig2, ims, interval=50, repeat_delay=3000,
-                                   blit=True)
-# To save this second animation with some metadata, use the following command:
-# im_ani.save('im.mp4', metadata={'artist':'Guido'})
-
-plt.show()
+"Tracage de l'erreur"
+figure4=plot.figure()
+plot.loglog(x[2:],list(np.array(temp200nm[2:]) - np.array(temp200nm[1:-1])),'o')#not the fastest way, but it's working
+plot.loglog(x[2:],list(np.array(temp200nm[2:]) - np.array(temp200nm[1:-1])),'-')#not the fastest way, but it's working
+plot.xlabel(xlabel1)
+plot.ylabel('erreur sur la température')
+erreur=np.log(list(np.array(temp200nm[2:]) - np.array(temp200nm[1:-1])))
+x1=np.log(np.array(x[2:]))
+m,b = np.polyfit(x1, erreur, 1)
+p = np.poly1d(np.polyfit(x1, erreur, 1))
+t = np.linspace(1, 1, 200)
+plot(t, p(t), '-')
+print(m)
+print(b)

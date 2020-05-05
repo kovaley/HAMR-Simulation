@@ -21,9 +21,9 @@ Lz=500e-9   #m
 duration=20e-9 #s
 
 "Pas"
-deltat=0.15e-9;
-deltar=5e-9;
-deltaz=5e-9;
+deltat=0.5e-9;
+deltar=10e-9;
+deltaz=10e-9;
 
 "Nombre de celulles"
 Nr=int(np.round(Lr/deltar))
@@ -47,7 +47,7 @@ rayonbit_enable=0
 #0=disabled
 #1=enabled
 "choix de la boucle à exécuter"
-boucle=3;
+boucle=1;
 #0=pas de temps
 #1=spatiale
 #2=puissance laser
