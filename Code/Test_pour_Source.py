@@ -11,7 +11,7 @@ import numpy as np
 import ploting as plt
 
 P_las = 1e-3 #W
-pC = 7800*432
+pC = 8900*432
 Nr = 100 
 Nz = 100
 r_pos = 1e-9*np.arange(Nr) #m
